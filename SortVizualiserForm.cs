@@ -80,8 +80,8 @@ namespace SortVizualizer
                         await CountingSort();
                         break;
                     case "Radix Sort":
-                        await RadixSort()
-                            ; break;
+                        await RadixSort();
+                        break;
                     case "Shell Sort":
                         await ShellSort();
                         break;
