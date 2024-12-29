@@ -79,6 +79,9 @@ namespace SortVizualizer
                     case "Counting Sort":
                         await CountingSort();
                         break;
+                    case "Radix Sort":
+                        await RadixSort()
+                            ; break;
 
                         // Add more cases for other algorithms
                 }
@@ -612,6 +615,53 @@ namespace SortVizualizer
 
                 if (cancelRequested) return; // Cancel if requested
             }
+        }
+
+        private async Task ShellSort()
+        {
+            if (data.Count == 0) return;
+
+            // Start with a large gap and reduce it over time
+            for (int gap = data.Count / 2; gap > 0; gap /= 2)
+            {
+                for (int i = gap; i < data.Count; i++)
+                {
+                    int temp = data[i];
+                    int j = i;
+
+                    // Perform gapped insertion sort
+                    while (j >= gap && data[j - gap] > temp)
+                    {
+                        currentIndex = j; // Highlight the current index
+                        comparingIndex = j - gap; // Highlight the comparison index
+                        data[j] = data[j - gap];
+
+                        // Redraw the visualization
+                        panelVisualizer.Invalidate();
+                        await Task.Delay(trackBarSpeed.Value * 5); // Delay for visualization
+
+                        j -= gap;
+
+                        if (cancelRequested) return; // Cancel if requested
+                    }
+
+                    data[j] = temp;
+
+                    // Redraw the visualization
+                    currentIndex = j; // Highlight the placement index
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 5); // Delay for visualization
+
+                    if (cancelRequested) return; // Cancel if requested
+                }
+            }
+
+            // Reset indices for coloring
+            currentIndex = -1;
+            comparingIndex = -1;
+
+            // Inform the user that sorting is complete
+            MessageBox.Show("Shell Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
 
