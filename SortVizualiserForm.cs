@@ -349,6 +349,68 @@ namespace SortVizualizer
             MessageBox.Show("Merge Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private async Task QuickSort(int left, int right)
+        {
+            if (left < right)
+            {
+                int pivotIndex = await Partition(left, right);
+
+                // Recursively sort elements before and after the pivot
+                await QuickSort(left, pivotIndex - 1);
+                await QuickSort(pivotIndex + 1, right);
+            }
+        }
+
+        private async Task<int> Partition(int left, int right)
+        {
+            int pivot = data[right]; // Choose the rightmost element as the pivot
+            int i = left - 1;
+
+            // Highlight the pivot
+            currentIndex = right;
+
+            for (int j = left; j < right; j++)
+            {
+                comparingIndex = j; // Highlight the current element being compared
+
+                if (data[j] < pivot)
+                {
+                    i++;
+                    // Swap data[i] and data[j]
+                    int temp = data[i];
+                    data[i] = data[j];
+                    data[j] = temp;
+
+                    panelVisualizer.Invalidate(); // Redraw visualization
+                    await Task.Delay(trackBarSpeed.Value * 10);
+                    if (cancelRequested) return -1;
+                }
+            }
+
+            // Swap the pivot into its correct position
+            int tempPivot = data[i + 1];
+            data[i + 1] = data[right];
+            data[right] = tempPivot;
+
+            panelVisualizer.Invalidate();
+            await Task.Delay(trackBarSpeed.Value * 10);
+            if (cancelRequested) return -1;
+
+            // Return the partition index
+            return i + 1;
+        }
+
+        private async Task QuickSortWrapper()
+        {
+            cancelRequested = false; // Ensure cancelRequested is reset
+            await QuickSort(0, data.Count - 1);
+
+            // Reset indices after sorting
+            currentIndex = -1;
+            comparingIndex = -1;
+
+            MessageBox.Show("Quick Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
 
 
         private void comboAlgorithms_SelectedIndexChanged(object sender, EventArgs e)
