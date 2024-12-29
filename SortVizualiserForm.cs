@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -115,6 +116,8 @@ namespace SortVizualizer
                     case "Flash Sort":
                         await FlashSort();
                         break;
+                    
+
 
 
 
@@ -1350,12 +1353,17 @@ namespace SortVizualizer
             MessageBox.Show("Flash Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-
-
-
-
-
-
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            using (LinearGradientBrush gradientBrush = new LinearGradientBrush(
+                this.ClientRectangle,
+                Color.DarkBlue,  // Top color
+                Color.DarkOrange,        // Bottom color
+                LinearGradientMode.Vertical))
+            {
+                e.Graphics.FillRectangle(gradientBrush, this.ClientRectangle);
+            }
+        }
 
 
         private void comboAlgorithms_SelectedIndexChanged(object sender, EventArgs e)
