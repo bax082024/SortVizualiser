@@ -22,7 +22,7 @@ namespace SortVizualizer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Add sorting algorithms to the dropdown
+            // Populate the ComboBox with sorting algorithm options
             comboAlgorithms.Items.AddRange(new string[]
             {
                 "Bubble Sort",
@@ -32,8 +32,10 @@ namespace SortVizualizer
                 "Quick Sort"
             });
 
-            comboAlgorithms.SelectedIndex = 0; // Default selection
+            comboAlgorithms.SelectedIndex = 0; // Set default selection
+            GenerateRandomData(50); // Generate initial data with 50 bars
         }
+
 
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -81,6 +83,8 @@ namespace SortVizualizer
 
         private void panelVisualizer_Paint(object sender, PaintEventArgs e)
         {
+            if (data.Count == 0) return; // Exit early if no data to visualize
+
             Graphics g = e.Graphics;
             int barWidth = panelVisualizer.Width / data.Count; // Calculate bar width based on data size
 
@@ -94,6 +98,7 @@ namespace SortVizualizer
                 g.FillRectangle(Brushes.Blue, x, y, barWidth - 2, barHeight);
             }
         }
+
 
 
 
