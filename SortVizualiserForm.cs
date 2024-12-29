@@ -100,6 +100,9 @@ namespace SortVizualizer
                     case "Gnome Sort":
                         await GnomeSort();
                         break;
+                    case "Comb Sort":
+                        await CombSort();
+                        break;
 
 
                         // Add more cases for other algorithms
@@ -954,6 +957,60 @@ namespace SortVizualizer
             MessageBox.Show("Gnome Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private async Task CombSort()
+        {
+            if (data == null || data.Count == 0)
+            {
+                MessageBox.Show("No data to sort!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            int gap = data.Count; // Start with the full length
+            bool swapped = true;
+            const double shrinkFactor = 1.3; // Factor to reduce the gap size
+
+            while (gap > 1 || swapped)
+            {
+                gap = (int)(gap / shrinkFactor);
+                if (gap < 1) gap = 1;
+
+                swapped = false;
+
+                for (int i = 0; i + gap < data.Count; i++)
+                {
+                    currentIndex = i;         // Highlight the current bar
+                    comparingIndex = i + gap; // Highlight the compared bar
+
+                    if (data[i] > data[i + gap])
+                    {
+                        // Swap the elements
+                        int temp = data[i];
+                        data[i] = data[i + gap];
+                        data[i + gap] = temp;
+                        swapped = true;
+                    }
+
+                    // Update visualization
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 10);
+
+                    if (cancelRequested)
+                    {
+                        currentIndex = -1;
+                        comparingIndex = -1;
+                        panelVisualizer.Invalidate();
+                        return; // Stop if canceled
+                    }
+                }
+            }
+
+            // Reset indices after sorting
+            currentIndex = -1;
+            comparingIndex = -1;
+            panelVisualizer.Invalidate();
+
+            MessageBox.Show("Comb Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
 
 
 
