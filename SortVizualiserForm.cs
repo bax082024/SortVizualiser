@@ -208,6 +208,44 @@ namespace SortVizualizer
             MessageBox.Show("Sorting Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private async Task InsertionSort()
+        {
+            for (int i = 1; i < data.Count; i++)
+            {
+                int key = data[i];
+                int j = i - 1;
+
+                currentIndex = i; // Mark the current element
+                comparingIndex = j; // Mark the element being compared
+
+                while (j >= 0 && data[j] > key)
+                {
+                    data[j + 1] = data[j];
+                    j--;
+
+                    // Update visualization
+                    comparingIndex = j; // Update the comparison index
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 10);
+
+                    if (cancelRequested) return; // Stop if cancel is requested
+                }
+
+                data[j + 1] = key;
+
+                // Update visualization after placing the key
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 10);
+
+                if (cancelRequested) return; // Stop if cancel is requested
+            }
+
+            // Reset indices
+            currentIndex = -1;
+            comparingIndex = -1;
+
+            MessageBox.Show("Insertion Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
 
 
         private void comboAlgorithms_SelectedIndexChanged(object sender, EventArgs e)
