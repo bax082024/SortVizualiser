@@ -542,6 +542,77 @@ namespace SortVizualizer
             MessageBox.Show("Counting Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private async Task RadixSort()
+        {
+            if (data.Count == 0) return;
+
+            // Find the maximum number to determine the number of digits
+            int maxValue = data.Max();
+            int digitPosition = 1; // Start with the least significant digit
+
+            while (maxValue / digitPosition > 0)
+            {
+                await CountingSortByDigit(digitPosition);
+                digitPosition *= 10; // Move to the next digit position
+
+                if (cancelRequested) return; // Cancel if requested
+            }
+
+            // Reset indices for coloring
+            currentIndex = -1;
+            comparingIndex = -1;
+
+            // Inform the user that sorting is complete
+            MessageBox.Show("Radix Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private async Task CountingSortByDigit(int digitPosition)
+        {
+            int[] count = new int[10]; // For digits 0 to 9
+            int[] output = new int[data.Count]; // Sorted output array
+
+            // Count occurrences of each digit
+            for (int i = 0; i < data.Count; i++)
+            {
+                currentIndex = i; // Highlight the current bar being processed
+                int digit = (data[i] / digitPosition) % 10; // Extract the digit at the current position
+                count[digit]++;
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 5); // Delay for visualization
+
+                if (cancelRequested) return; // Cancel if requested
+            }
+
+            // Update count[i] to store actual positions in the output array
+            for (int i = 1; i < 10; i++)
+            {
+                count[i] += count[i - 1];
+            }
+
+            // Build the output array
+            for (int i = data.Count - 1; i >= 0; i--)
+            {
+                int digit = (data[i] / digitPosition) % 10;
+                output[count[digit] - 1] = data[i];
+                comparingIndex = count[digit] - 1; // Highlight where the number is being placed
+                count[digit]--;
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 5); // Delay for visualization
+
+                if (cancelRequested) return; // Cancel if requested
+            }
+
+            // Copy the output array back into the data list
+            for (int i = 0; i < data.Count; i++)
+            {
+                data[i] = output[i];
+                currentIndex = i; // Highlight the updated bar
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 5); // Delay for visualization
+
+                if (cancelRequested) return; // Cancel if requested
+            }
+        }
 
 
 
