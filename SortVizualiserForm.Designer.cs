@@ -209,7 +209,9 @@
             "",
             "Cycle Sort",
             "",
-            "Bitonic Sort"});
+            "Bitonic Sort",
+            "",
+            "Odd Even Sort"});
             this.comboAlgorithms.Location = new System.Drawing.Point(71, 537);
             this.comboAlgorithms.Name = "comboAlgorithms";
             this.comboAlgorithms.Size = new System.Drawing.Size(121, 21);

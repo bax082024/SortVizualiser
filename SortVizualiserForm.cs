@@ -1175,6 +1175,70 @@ namespace SortVizualizer
             MessageBox.Show("Bitonic Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private async Task OddEvenSort()
+        {
+            if (data.Count == 0) return;
+
+            bool sorted = false;
+
+            while (!sorted)
+            {
+                sorted = true;
+
+                // Perform odd-indexed passes
+                for (int i = 1; i < data.Count - 1; i += 2)
+                {
+                    currentIndex = i;       // Highlight the current index
+                    comparingIndex = i + 1; // Highlight the next index
+
+                    if (data[i] > data[i + 1])
+                    {
+                        // Swap if out of order
+                        int temp = data[i];
+                        data[i] = data[i + 1];
+                        data[i + 1] = temp;
+
+                        sorted = false; // Mark as not sorted
+                    }
+
+                    // Update visualization
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 10);
+
+                    if (cancelRequested) return; // Stop if canceled
+                }
+
+                // Perform even-indexed passes
+                for (int i = 0; i < data.Count - 1; i += 2)
+                {
+                    currentIndex = i;       // Highlight the current index
+                    comparingIndex = i + 1; // Highlight the next index
+
+                    if (data[i] > data[i + 1])
+                    {
+                        // Swap if out of order
+                        int temp = data[i];
+                        data[i] = data[i + 1];
+                        data[i + 1] = temp;
+
+                        sorted = false; // Mark as not sorted
+                    }
+
+                    // Update visualization
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 10);
+
+                    if (cancelRequested) return; // Stop if canceled
+                }
+            }
+
+            // Reset indices after sorting
+            currentIndex = -1;
+            comparingIndex = -1;
+            panelVisualizer.Invalidate();
+
+            MessageBox.Show("Odd-Even Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
 
 
 
