@@ -58,6 +58,9 @@ namespace SortVizualizer
                     case "Bubble Sort":
                         await BubbleSort();
                         break;
+                    case "Selection Sort":
+                        await SelectionSort();
+                        break;
 
                         // Add more cases for other algorithms
                 }
@@ -154,29 +157,39 @@ namespace SortVizualizer
             for (int i = 0; i < data.Count - 1; i++)
             {
                 int minIndex = i;
+
                 for (int j = i + 1; j < data.Count; j++)
                 {
+                    // Highlight the current bars being compared
+                    panelVisualizer.CreateGraphics().FillRectangle(Brushes.Red,
+                        j * (panelVisualizer.Width / data.Count),
+                        panelVisualizer.Height - data[j],
+                        (panelVisualizer.Width / data.Count) - 2,
+                        data[j]);
+
                     if (data[j] < data[minIndex])
                     {
                         minIndex = j;
                     }
+
+                    await Task.Delay(trackBarSpeed.Value * 10); // Speed control
+
+                    // Reset the bar color to blue
+                    panelVisualizer.Invalidate();
                 }
 
-                // Swap the minimum element with the first element of the unsorted part
+                // Swap and update visualization
                 if (minIndex != i)
                 {
                     int temp = data[i];
                     data[i] = data[minIndex];
                     data[minIndex] = temp;
 
-                    // Redraw the visualization
                     panelVisualizer.Invalidate();
-
-                    // Delay for visualization based on speed slider
-                    await Task.Delay(trackBarSpeed.Value * 10);
                 }
             }
         }
+
 
 
         private void comboAlgorithms_SelectedIndexChanged(object sender, EventArgs e)
