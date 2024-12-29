@@ -56,8 +56,11 @@ namespace SortVizualizer
 
             if (!string.IsNullOrEmpty(selectedAlgorithm))
             {
+    
+
                 switch (selectedAlgorithm)
                 {
+
                     case "Bubble Sort":
                         await BubbleSort();
                         break;
@@ -80,8 +83,8 @@ namespace SortVizualizer
                         await CountingSort();
                         break;
                     case "Radix Sort":
-                        await RadixSort()
-                            ; break;
+                        await RadixSort();
+                        break;
                     case "Shell Sort":
                         await ShellSort();
                         break;
@@ -91,6 +94,13 @@ namespace SortVizualizer
                     case "Tim Sort":
                         await TimSort();
                         break;
+                    case "Pigeonhole Sort":
+                        await PigeonholeSort();
+                        break;
+                    case "Gnome Sort":
+                        await GnomeSort();
+                        break;
+
 
                         // Add more cases for other algorithms
                 }
@@ -855,6 +865,100 @@ namespace SortVizualizer
                 await Task.Delay(trackBarSpeed.Value * 10);
             }
         }
+
+        private async Task PigeonholeSort()
+        {
+            if (data.Count == 0) return;
+
+            int min = data.Min();
+            int max = data.Max();
+            int range = max - min + 1;
+
+            List<List<int>> holes = new List<List<int>>(range);
+            for (int i = 0; i < range; i++)
+                holes.Add(new List<int>());
+
+            foreach (var item in data)
+                holes[item - min].Add(item);
+
+            int index = 0;
+            for (int i = 0; i < range; i++)
+            {
+                foreach (var value in holes[i])
+                {
+                    data[index++] = value;
+
+                    // Highlight the current value being placed
+                    currentIndex = index - 1;
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 10);
+
+                    if (cancelRequested) return;
+                }
+            }
+
+            currentIndex = -1;
+            comparingIndex = -1;
+            panelVisualizer.Invalidate();
+
+            MessageBox.Show("Sorting Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private async Task GnomeSort()
+        {
+            if (data == null || data.Count == 0)
+            {
+                MessageBox.Show("No data to sort!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            int index = 0;
+
+            while (index < data.Count)
+            {
+                currentIndex = index; // Highlight the current bar
+
+                if (index == 0 || data[index] >= data[index - 1])
+                {
+                    index++;
+                }
+                else
+                {
+                    // Swap the elements
+                    int temp = data[index];
+                    data[index] = data[index - 1];
+                    data[index - 1] = temp;
+                    index--;
+
+                    comparingIndex = index; // Highlight the compared bar
+                }
+
+                // Update visualization
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 10);
+
+                if (cancelRequested)
+                {
+                    currentIndex = -1;
+                    comparingIndex = -1;
+                    panelVisualizer.Invalidate();
+                    return; // Stop if canceled
+                }
+            }
+
+            // Reset indices after sorting
+            currentIndex = -1;
+            comparingIndex = -1;
+            panelVisualizer.Invalidate();
+
+            MessageBox.Show("Gnome Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+
+
+
+
+
 
 
 

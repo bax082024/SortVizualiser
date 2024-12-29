@@ -199,7 +199,11 @@
             "",
             "Bucket Sort",
             "",
-            "Tim Sort"});
+            "Tim Sort",
+            "",
+            "Pigeonhole Sort",
+            "",
+            "Gnome Sort"});
             this.comboAlgorithms.Location = new System.Drawing.Point(71, 537);
             this.comboAlgorithms.Name = "comboAlgorithms";
             this.comboAlgorithms.Size = new System.Drawing.Size(121, 21);
