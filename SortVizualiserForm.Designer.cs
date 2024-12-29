@@ -179,6 +179,7 @@
             this.panelVisualizer.Name = "panelVisualizer";
             this.panelVisualizer.Size = new System.Drawing.Size(600, 400);
             this.panelVisualizer.TabIndex = 0;
+            this.panelVisualizer.Paint += new System.Windows.Forms.PaintEventHandler(this.panelVisualizer_Paint);
             // 
             // lblSpeed
             // 

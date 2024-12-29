@@ -47,7 +47,7 @@ namespace SortVizualizer
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Reset clicked! Visualization will reset.");
+            GenerateRandomData(50);
         }
 
         private void btnExit_Click(object sender, EventArgs e)
