@@ -65,6 +65,7 @@
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.Color.SteelBlue;
             this.panel1.Controls.Add(this.lblSpeed);
             this.panel1.Controls.Add(this.trackBarSpeed);
             this.panel1.Controls.Add(this.btnExit);
@@ -215,7 +216,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Tan;
+            this.BackColor = System.Drawing.Color.Gainsboro;
             this.ClientSize = new System.Drawing.Size(744, 686);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.statusStrip1);

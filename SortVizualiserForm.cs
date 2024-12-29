@@ -667,6 +667,66 @@ namespace SortVizualizer
             MessageBox.Show("Shell Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private async Task BucketSort()
+        {
+            int bucketCount = 10; // Number of buckets
+            List<int>[] buckets = new List<int>[bucketCount];
+
+            // Initialize buckets
+            for (int i = 0; i < bucketCount; i++)
+            {
+                buckets[i] = new List<int>();
+            }
+
+            // Determine the range of data
+            int maxValue = data.Max();
+            int minValue = data.Min();
+            int range = (maxValue - minValue) / bucketCount + 1;
+
+            // Assign elements to buckets
+            for (int i = 0; i < data.Count; i++)
+            {
+                int bucketIndex = (data[i] - minValue) / range;
+                buckets[bucketIndex].Add(data[i]);
+
+                // Visualization: Highlight the assigned bucket
+                currentIndex = i;
+                comparingIndex = -1; // Reset comparing index
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 10);
+            }
+
+            // Sort each bucket and merge
+            data.Clear();
+            for (int i = 0; i < bucketCount; i++)
+            {
+                // Sort the individual bucket
+                buckets[i].Sort();
+
+                // Add bucket contents back to the data list
+                foreach (var value in buckets[i])
+                {
+                    data.Add(value);
+
+                    // Visualization: Show progress as elements are added
+                    currentIndex = data.Count - 1;
+                    comparingIndex = -1; // Reset comparing index
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 10);
+                }
+            }
+
+            // Reset indices after sorting
+            currentIndex = -1;
+            comparingIndex = -1;
+
+            // Notify the user
+            MessageBox.Show("Bucket Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+
+
+
 
 
         private void comboAlgorithms_SelectedIndexChanged(object sender, EventArgs e)
