@@ -526,7 +526,7 @@ namespace SortVizualizer
                     index++;
                     count[i]--;
 
-                    // Redraw the visualization
+                    // Redraw the visualization d
                     panelVisualizer.Invalidate();
                     await Task.Delay(trackBarSpeed.Value * 5); // Delay for visualization
 
