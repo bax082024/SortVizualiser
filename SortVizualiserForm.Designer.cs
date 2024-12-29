@@ -65,7 +65,7 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.SteelBlue;
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.Controls.Add(this.lblSpeed);
             this.panel1.Controls.Add(this.trackBarSpeed);
             this.panel1.Controls.Add(this.btnExit);
@@ -86,7 +86,7 @@
             // 
             this.lblSpeed.AutoSize = true;
             this.lblSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSpeed.Location = new System.Drawing.Point(89, 607);
+            this.lblSpeed.Location = new System.Drawing.Point(88, 574);
             this.lblSpeed.Name = "lblSpeed";
             this.lblSpeed.Size = new System.Drawing.Size(73, 16);
             this.lblSpeed.TabIndex = 10;
@@ -94,7 +94,7 @@
             // 
             // trackBarSpeed
             // 
-            this.trackBarSpeed.Location = new System.Drawing.Point(74, 582);
+            this.trackBarSpeed.Location = new System.Drawing.Point(74, 595);
             this.trackBarSpeed.Minimum = 1;
             this.trackBarSpeed.Name = "trackBarSpeed";
             this.trackBarSpeed.Size = new System.Drawing.Size(104, 45);
@@ -119,6 +119,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Stencil", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.Tomato;
             this.label2.Location = new System.Drawing.Point(104, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(525, 57);
@@ -214,8 +215,7 @@
             "Odd-Even Sort",
             "",
             "Flash Sort",
-            "",
-            "Strand Sort"});
+            ""});
             this.comboAlgorithms.Location = new System.Drawing.Point(71, 537);
             this.comboAlgorithms.Name = "comboAlgorithms";
             this.comboAlgorithms.Size = new System.Drawing.Size(121, 21);
@@ -236,7 +236,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DimGray;
+            this.BackColor = System.Drawing.Color.IndianRed;
             this.ClientSize = new System.Drawing.Size(744, 686);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.statusStrip1);

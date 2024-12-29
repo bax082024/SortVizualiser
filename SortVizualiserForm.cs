@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -115,9 +116,7 @@ namespace SortVizualizer
                     case "Flash Sort":
                         await FlashSort();
                         break;
-                    case "Strand Sort":
-                        await StrandSortWrapper();
-                        break;
+                    
 
 
 
@@ -1354,85 +1353,17 @@ namespace SortVizualizer
             MessageBox.Show("Flash Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private async Task StrandSortWrapper()
+        protected override void OnPaintBackground(PaintEventArgs e)
         {
-            cancelRequested = false; // Reset the cancellation flag
-
-            List<int> sorted = new List<int>(); // Holds the sorted elements
-
-            while (data.Count > 0)
+            using (LinearGradientBrush gradientBrush = new LinearGradientBrush(
+                this.ClientRectangle,
+                Color.DarkBlue,  // Top color
+                Color.DarkOrange,        // Bottom color
+                LinearGradientMode.Vertical))
             {
-                List<int> sublist = new List<int> { data[0] }; // Start a new sublist with the first element
-                data.RemoveAt(0);
-
-                for (int i = 0; i < data.Count; i++)
-                {
-                    currentIndex = i; // Highlight the current bar
-                    comparingIndex = sublist.Count - 1; // Highlight the comparison with the last element in the sublist
-
-                    if (data[i] >= sublist[^1]) // Add to sublist if it's greater or equal
-                    {
-                        sublist.Add(data[i]);
-                        data.RemoveAt(i);
-                        i--; // Adjust the index due to removal
-                    }
-
-                    // Redraw visualization
-                    panelVisualizer.Invalidate();
-                    await Task.Delay(trackBarSpeed.Value * 10);
-
-                    if (cancelRequested) return; // Stop if canceled
-                }
-
-                // Merge sublist into the sorted list
-                sorted = MergeSortedLists(sorted, sublist);
-
-                // Redraw the entire sorted list
-                data.Clear();
-                data.AddRange(sorted);
-                panelVisualizer.Invalidate();
-                await Task.Delay(trackBarSpeed.Value * 10);
-
-                if (cancelRequested) return; // Stop if canceled
+                e.Graphics.FillRectangle(gradientBrush, this.ClientRectangle);
             }
-
-            currentIndex = -1;
-            comparingIndex = -1;
-
-            MessageBox.Show("Strand Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
-        private List<int> MergeSortedLists(List<int> list1, List<int> list2)
-        {
-            List<int> merged = new List<int>();
-            int i = 0, j = 0;
-
-            while (i < list1.Count && j < list2.Count)
-            {
-                if (list1[i] <= list2[j])
-                {
-                    merged.Add(list1[i]);
-                    i++;
-                }
-                else
-                {
-                    merged.Add(list2[j]);
-                    j++;
-                }
-            }
-
-            // Add remaining elements from both lists
-            while (i < list1.Count) merged.Add(list1[i++]);
-            while (j < list2.Count) merged.Add(list2[j++]);
-
-            return merged;
-        }
-
-
-
-
-
-
 
 
         private void comboAlgorithms_SelectedIndexChanged(object sender, EventArgs e)
