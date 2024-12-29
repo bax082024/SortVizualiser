@@ -76,6 +76,9 @@ namespace SortVizualizer
                     case "Heap Sort":
                         await HeapSort();
                         break;
+                    case "Counting Sort":
+                        await CountingSort();
+                        break;
 
                         // Add more cases for other algorithms
                 }
