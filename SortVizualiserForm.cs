@@ -12,6 +12,9 @@ namespace SortVizualizer
 {
     public partial class SortVizualiserForm : Form
     {
+        private List<int> data = new List<int>();
+
+
         public SortVizualiserForm()
         {
             InitializeComponent();
@@ -34,22 +37,52 @@ namespace SortVizualizer
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show("Start clicked! Sorting algorithm will start soon.");
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show("Pause clicked!");
         }
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show("Reset clicked! Visualization will reset.");
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+
+        private void trackSpeed_Scroll(object sender, EventArgs e)
+        {
+            lblSpeed.Text = $"Speed: {trackSpeed.Value}";
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void GenerateRandomData(int size)
+        {
+            Random random = new Random();
+            data.Clear();
+
+            for (int i = 0; i < size; i++)
+            {
+                // Generate random values between 10 and 300 (adjust for panel height)
+                data.Add(random.Next(10, panelVisualizer.Height - 10));
+            }
+
+            panelVisualizer.Invalidate(); // Redraw the panel
+        }
+
+
+
+
+
+
     }
 }

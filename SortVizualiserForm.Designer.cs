@@ -31,7 +31,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
             this.trackSpeed = new System.Windows.Forms.TrackBar();
             this.btnExit = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -41,6 +40,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.comboAlgorithms = new System.Windows.Forms.ComboBox();
             this.panelVisualizer = new System.Windows.Forms.Panel();
+            this.lblSpeed = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackSpeed)).BeginInit();
@@ -65,7 +65,7 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.lblSpeed);
             this.panel1.Controls.Add(this.trackSpeed);
             this.panel1.Controls.Add(this.btnExit);
             this.panel1.Controls.Add(this.label2);
@@ -81,24 +81,15 @@
             this.panel1.Size = new System.Drawing.Size(744, 664);
             this.panel1.TabIndex = 1;
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(74, 576);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(101, 16);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Select Speed";
-            // 
             // trackSpeed
             // 
-            this.trackSpeed.Location = new System.Drawing.Point(71, 595);
+            this.trackSpeed.Location = new System.Drawing.Point(74, 582);
             this.trackSpeed.Minimum = 1;
             this.trackSpeed.Name = "trackSpeed";
             this.trackSpeed.Size = new System.Drawing.Size(104, 45);
             this.trackSpeed.TabIndex = 8;
             this.trackSpeed.Value = 5;
+            this.trackSpeed.Scroll += new System.EventHandler(this.trackSpeed_Scroll);
             // 
             // btnExit
             // 
@@ -189,6 +180,16 @@
             this.panelVisualizer.Size = new System.Drawing.Size(600, 400);
             this.panelVisualizer.TabIndex = 0;
             // 
+            // lblSpeed
+            // 
+            this.lblSpeed.AutoSize = true;
+            this.lblSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSpeed.Location = new System.Drawing.Point(89, 607);
+            this.lblSpeed.Name = "lblSpeed";
+            this.lblSpeed.Size = new System.Drawing.Size(73, 16);
+            this.lblSpeed.TabIndex = 10;
+            this.lblSpeed.Text = "Speed : 5";
+            // 
             // SortVizualiserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -223,7 +224,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.TrackBar trackSpeed;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblSpeed;
     }
 }
 
