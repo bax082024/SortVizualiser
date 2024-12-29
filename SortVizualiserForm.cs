@@ -103,6 +103,9 @@ namespace SortVizualizer
                     case "Comb Sort":
                         await CombSort();
                         break;
+                    case "Cycle Sort":
+                        await CycleSort();
+                        break;
 
 
                         // Add more cases for other algorithms
