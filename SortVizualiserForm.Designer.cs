@@ -94,6 +94,7 @@
             // 
             // trackBarSpeed
             // 
+            this.trackBarSpeed.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.trackBarSpeed.BackColor = System.Drawing.Color.DimGray;
             this.trackBarSpeed.Location = new System.Drawing.Point(74, 595);
             this.trackBarSpeed.Minimum = 1;
@@ -105,6 +106,7 @@
             // 
             // btnExit
             // 
+            this.btnExit.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnExit.BackColor = System.Drawing.Color.Tan;
             this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -118,6 +120,7 @@
             // 
             // label2
             // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Stencil", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Tomato;
@@ -129,6 +132,7 @@
             // 
             // btnReset
             // 
+            this.btnReset.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnReset.BackColor = System.Drawing.Color.Tan;
             this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -142,6 +146,7 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnCancel.BackColor = System.Drawing.Color.Tan;
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -155,6 +160,7 @@
             // 
             // btnStart
             // 
+            this.btnStart.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnStart.BackColor = System.Drawing.Color.Tan;
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -178,6 +184,7 @@
             // 
             // comboAlgorithms
             // 
+            this.comboAlgorithms.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.comboAlgorithms.BackColor = System.Drawing.SystemColors.Info;
             this.comboAlgorithms.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboAlgorithms.FormattingEnabled = true;
@@ -227,6 +234,7 @@
             // 
             // panelVisualizer
             // 
+            this.panelVisualizer.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panelVisualizer.BackColor = System.Drawing.Color.LemonChiffon;
             this.panelVisualizer.Location = new System.Drawing.Point(71, 104);
             this.panelVisualizer.Name = "panelVisualizer";
