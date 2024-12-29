@@ -1149,17 +1149,23 @@ namespace SortVizualizer
         {
             cancelRequested = false; // Reset cancellation flag
 
-            // Ensure the size of the data is a power of 2 (padding if needed)
-            int size = data.Count;
-            while ((size & (size - 1)) != 0)
+            // Calculate the next power of 2
+            int nextPowerOfTwo = 1;
+            while (nextPowerOfTwo < data.Count)
             {
-                data.Add(int.MaxValue); // Add padding to make the size a power of 2
+                nextPowerOfTwo *= 2;
+            }
+
+            // Add padding to make the size a power of 2
+            while (data.Count < nextPowerOfTwo)
+            {
+                data.Add(0); // Add 0 as padding
             }
 
             await BitonicSort(0, data.Count, true);
 
             // Remove any padding
-            data.RemoveAll(x => x == int.MaxValue);
+            data.RemoveAll(x => x == 0);
 
             // Reset indices
             currentIndex = -1;
@@ -1168,6 +1174,7 @@ namespace SortVizualizer
 
             MessageBox.Show("Bitonic Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
 
 
 
