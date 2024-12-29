@@ -14,3 +14,27 @@ educational way to visualize sorting algorithms in action.
 - Interactive interface with gradient backgrounds for an improved UI experience.
 
 ---
+
+## Implemented Sorting Algorithms
+
+- **Bubble Sort**
+- **Selection Sort**
+- **Insertion Sort**
+- **Merge Sort**
+- **Quick Sort**
+- **Heap Sort**
+- **Counting Sort**
+- **Radix Sort**
+- **Shell Sort**
+- **Bucket Sort**
+- **Tim Sort**
+- **Pigeonhole Sort**
+- **Gnome Sort**
+- **Comb Sort**
+- **Cycle Sort**
+- **Bitonic Sort**
+- **Odd-Even Sort**
+- **Flash Sort**
+
+---
+
