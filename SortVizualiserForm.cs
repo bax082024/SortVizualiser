@@ -73,6 +73,9 @@ namespace SortVizualizer
                     case "Quick Sort":
                         await QuickSortWrapper();
                         break;
+                    case "Heap Sort":
+                        await HeapSort();
+                        break;
 
                         // Add more cases for other algorithms
                 }
