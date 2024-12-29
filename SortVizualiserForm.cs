@@ -897,6 +897,79 @@ namespace SortVizualizer
             MessageBox.Show("Sorting Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private async Task CocktailShakerSort()
+        {
+            if (data.Count == 0) return;
+
+            bool swapped = true;
+            int start = 0;
+            int end = data.Count - 1;
+
+            while (swapped)
+            {
+                swapped = false;
+
+                // Traverse from left to right
+                for (int i = start; i < end; i++)
+                {
+                    currentIndex = i;
+                    comparingIndex = i + 1;
+
+                    if (data[i] > data[i + 1])
+                    {
+                        // Swap elements
+                        int temp = data[i];
+                        data[i] = data[i + 1];
+                        data[i + 1] = temp;
+                        swapped = true;
+                    }
+
+                    // Redraw the visualization
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 10);
+
+                    if (cancelRequested) return;
+                }
+
+                if (!swapped)
+                    break;
+
+                swapped = false;
+                end--;
+
+                // Traverse from right to left
+                for (int i = end - 1; i >= start; i--)
+                {
+                    currentIndex = i;
+                    comparingIndex = i + 1;
+
+                    if (data[i] > data[i + 1])
+                    {
+                        // Swap elements
+                        int temp = data[i];
+                        data[i] = data[i + 1];
+                        data[i + 1] = temp;
+                        swapped = true;
+                    }
+
+                    // Redraw the visualization
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 10);
+
+                    if (cancelRequested) return;
+                }
+
+                start++;
+            }
+
+            // Reset indices after sorting
+            currentIndex = -1;
+            comparingIndex = -1;
+            panelVisualizer.Invalidate();
+
+            MessageBox.Show("Sorting Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
 
 
 
