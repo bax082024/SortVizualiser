@@ -85,6 +85,9 @@ namespace SortVizualizer
                     case "Shell Sort":
                         await ShellSort();
                         break;
+                    case "Bucket Sort":
+                        await BucketSort();
+                        break;
 
                         // Add more cases for other algorithms
                 }
