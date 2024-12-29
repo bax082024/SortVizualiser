@@ -31,7 +31,9 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panelVisualizer = new System.Windows.Forms.Panel();
             this.statusStrip1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -40,7 +42,7 @@
             this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 678);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(952, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(744, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -53,24 +55,34 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.panelVisualizer);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(952, 678);
+            this.panel1.Size = new System.Drawing.Size(744, 678);
             this.panel1.TabIndex = 1;
+            // 
+            // panelVisualizer
+            // 
+            this.panelVisualizer.BackColor = System.Drawing.Color.LightGray;
+            this.panelVisualizer.Location = new System.Drawing.Point(70, 120);
+            this.panelVisualizer.Name = "panelVisualizer";
+            this.panelVisualizer.Size = new System.Drawing.Size(600, 400);
+            this.panelVisualizer.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Tan;
-            this.ClientSize = new System.Drawing.Size(952, 700);
+            this.ClientSize = new System.Drawing.Size(744, 700);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.statusStrip1);
             this.Name = "Form1";
             this.Text = "Form1";
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -81,6 +93,7 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panelVisualizer;
     }
 }
 
