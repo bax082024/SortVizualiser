@@ -727,6 +727,132 @@ namespace SortVizualizer
             MessageBox.Show("Bucket Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private async Task TimSort()
+        {
+            int RUN = 32; // Size of each run (can be adjusted for testing)
+
+            // Perform insertion sort on chunks of size RUN
+            for (int i = 0; i < data.Count; i += RUN)
+            {
+                await InsertionSortTim(data, i, Math.Min(i + RUN - 1, data.Count - 1));
+            }
+
+            // Merge sorted chunks
+            for (int size = RUN; size < data.Count; size = 2 * size)
+            {
+                for (int left = 0; left < data.Count; left += 2 * size)
+                {
+                    int mid = left + size - 1;
+                    int right = Math.Min(left + 2 * size - 1, data.Count - 1);
+
+                    if (mid < right)
+                    {
+                        await MergeTim(data, left, mid, right);
+                    }
+                }
+            }
+
+            // Reset indices after sorting
+            currentIndex = -1;
+            comparingIndex = -1;
+
+            // Notify the user
+            MessageBox.Show("Tim Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        // Helper method: Insertion sort for TimSort
+        private async Task InsertionSortTim(List<int> arr, int left, int right)
+        {
+            for (int i = left + 1; i <= right; i++)
+            {
+                int temp = arr[i];
+                int j = i - 1;
+
+                while (j >= left && arr[j] > temp)
+                {
+                    arr[j + 1] = arr[j];
+                    j--;
+
+                    // Visualization
+                    currentIndex = i;
+                    comparingIndex = j;
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 10);
+                }
+
+                arr[j + 1] = temp;
+
+                // Visualization
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 10);
+            }
+        }
+
+        // Helper method: Merge for TimSort
+        private async Task MergeTim(List<int> arr, int left, int mid, int right)
+        {
+            int len1 = mid - left + 1;
+            int len2 = right - mid;
+
+            int[] leftArr = new int[len1];
+            int[] rightArr = new int[len2];
+
+            for (int x = 0; x < len1; x++)
+                leftArr[x] = arr[left + x];
+            for (int x = 0; x < len2; x++)
+                rightArr[x] = arr[mid + 1 + x];
+
+            int i = 0, j = 0, k = left;
+
+            while (i < len1 && j < len2)
+            {
+                if (leftArr[i] <= rightArr[j])
+                {
+                    arr[k] = leftArr[i];
+                    i++;
+                }
+                else
+                {
+                    arr[k] = rightArr[j];
+                    j++;
+                }
+
+                // Visualization
+                currentIndex = k;
+                comparingIndex = -1;
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 10);
+
+                k++;
+            }
+
+            while (i < len1)
+            {
+                arr[k] = leftArr[i];
+                i++;
+                k++;
+
+                // Visualization
+                currentIndex = k - 1;
+                comparingIndex = -1;
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 10);
+            }
+
+            while (j < len2)
+            {
+                arr[k] = rightArr[j];
+                j++;
+                k++;
+
+                // Visualization
+                currentIndex = k - 1;
+                comparingIndex = -1;
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 10);
+            }
+        }
+
 
 
 
