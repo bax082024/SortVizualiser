@@ -1243,6 +1243,108 @@ namespace SortVizualizer
             MessageBox.Show("Odd-Even Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private async Task FlashSort()
+        {
+            if (data.Count <= 1) return;
+
+            int n = data.Count;
+            int m = Math.Max(1, n / 10); // Number of "buckets"
+            int[] l = new int[m]; // Count array for buckets
+            int min = data.Min();
+            int maxIndex = 0;
+
+            // Find the max value and its index
+            for (int i = 1; i < n; i++)
+            {
+                if (data[i] > data[maxIndex])
+                    maxIndex = i;
+
+                currentIndex = i; // Highlight the current element
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 5);
+
+                if (cancelRequested) return; // Cancel if requested
+            }
+
+            int max = data[maxIndex];
+
+            // Edge case: all elements are the same
+            if (max == min) return;
+
+            // Compute bucket indices
+            for (int i = 0; i < n; i++)
+            {
+                int bucketIndex = (int)((m - 1) * (double)(data[i] - min) / (max - min));
+                l[bucketIndex]++;
+            }
+
+            // Accumulate counts
+            for (int i = 1; i < m; i++)
+            {
+                l[i] += l[i - 1];
+            }
+
+            // Permutation: Place elements into correct buckets
+            int move = 0;
+            int j = 0;
+            int k = m - 1;
+
+            while (move < n - 1)
+            {
+                while (j > l[k] - 1)
+                {
+                    j++;
+                    k = (int)((m - 1) * (double)(data[j] - min) / (max - min));
+                }
+
+                int flash = data[j];
+                while (j != l[k])
+                {
+                    k = (int)((m - 1) * (double)(flash - min) / (max - min));
+                    int pos = --l[k];
+                    int temp = data[pos];
+                    data[pos] = flash;
+                    flash = temp;
+
+                    currentIndex = pos; // Highlight the current element
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 5);
+
+                    if (cancelRequested) return; // Cancel if requested
+
+                    move++;
+                }
+            }
+
+            // Finish with Insertion Sort for small subarrays
+            for (int i = 1; i < n; i++)
+            {
+                int key = data[i];
+                int j2 = i - 1;
+
+                while (j2 >= 0 && data[j2] > key)
+                {
+                    data[j2 + 1] = data[j2];
+                    j2--;
+
+                    currentIndex = j2 + 1;
+                    comparingIndex = j2;
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 5);
+
+                    if (cancelRequested) return; // Cancel if requested
+                }
+
+                data[j2 + 1] = key;
+            }
+
+            // Reset indices after sorting
+            currentIndex = -1;
+            comparingIndex = -1;
+            panelVisualizer.Invalidate();
+
+            MessageBox.Show("Flash Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
 
 
 
