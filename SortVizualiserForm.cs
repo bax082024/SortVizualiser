@@ -91,6 +91,9 @@ namespace SortVizualizer
                     case "Tim Sort":
                         await TimSort();
                         break;
+                    case "Pigeonhole Sort":
+                        await PigeonholeSort();
+                        break;
 
                         // Add more cases for other algorithms
                 }
