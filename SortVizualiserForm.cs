@@ -33,14 +33,41 @@ namespace SortVizualizer
             });
 
             comboAlgorithms.SelectedIndex = 0; // Set default selection
-            GenerateRandomData(50); // Generate initial data with 50 bars
+            GenerateRandomData(50); // Generate initial data automatically
         }
 
 
-        private void btnStart_Click(object sender, EventArgs e)
+
+        private async void btnStart_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Start clicked! Sorting algorithm will start soon.");
+            // Ensure data exists before starting
+            if (data == null || data.Count == 0)
+            {
+                GenerateRandomData(50); // Generate a default data set
+            }
+
+            btnStart.Enabled = false; // Disable the Start button during sorting
+            btnReset.Enabled = false; // Disable Reset during sorting
+
+            string selectedAlgorithm = comboAlgorithms.SelectedItem?.ToString();
+
+            if (!string.IsNullOrEmpty(selectedAlgorithm))
+            {
+                switch (selectedAlgorithm)
+                {
+                    case "Bubble Sort":
+                        await BubbleSort();
+                        break;
+
+                        // Add more cases for other algorithms
+                }
+            }
+
+            btnStart.Enabled = true; // Re-enable Start button after sorting
+            btnReset.Enabled = true; // Re-enable Reset button after sorting
         }
+
+
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
@@ -59,7 +86,7 @@ namespace SortVizualizer
 
         private void trackSpeed_Scroll(object sender, EventArgs e)
         {
-            lblSpeed.Text = $"Speed: {trackSpeed.Value}";
+            lblSpeed.Text = $"Speed: {trackBarSpeed.Value}";
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -122,13 +149,43 @@ namespace SortVizualizer
             }
         }
 
+        private async Task SelectionSort()
+        {
+            for (int i = 0; i < data.Count - 1; i++)
+            {
+                int minIndex = i;
+                for (int j = i + 1; j < data.Count; j++)
+                {
+                    if (data[j] < data[minIndex])
+                    {
+                        minIndex = j;
+                    }
+                }
+
+                // Swap the minimum element with the first element of the unsorted part
+                if (minIndex != i)
+                {
+                    int temp = data[i];
+                    data[i] = data[minIndex];
+                    data[minIndex] = temp;
+
+                    // Redraw the visualization
+                    panelVisualizer.Invalidate();
+
+                    // Delay for visualization based on speed slider
+                    await Task.Delay(trackBarSpeed.Value * 10);
+                }
+            }
+        }
 
 
-
-
-
-
-
-
+        private void comboAlgorithms_SelectedIndexChanged(object sender, EventArgs e)
+        {           
+            comboAlgorithms.Items.AddRange(new string[]
+            {
+                "Bubble Sort",
+                "Selection Sort" // Add Selection Sort
+            });
+        }
     }
 }

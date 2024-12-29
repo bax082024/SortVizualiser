@@ -31,7 +31,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.trackSpeed = new System.Windows.Forms.TrackBar();
+            this.trackBarSpeed = new System.Windows.Forms.TrackBar();
             this.btnExit = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.btnReset = new System.Windows.Forms.Button();
@@ -43,7 +43,7 @@
             this.lblSpeed = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackSpeed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).BeginInit();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -66,7 +66,7 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.lblSpeed);
-            this.panel1.Controls.Add(this.trackSpeed);
+            this.panel1.Controls.Add(this.trackBarSpeed);
             this.panel1.Controls.Add(this.btnExit);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.btnReset);
@@ -81,15 +81,15 @@
             this.panel1.Size = new System.Drawing.Size(744, 664);
             this.panel1.TabIndex = 1;
             // 
-            // trackSpeed
+            // trackBarSpeed
             // 
-            this.trackSpeed.Location = new System.Drawing.Point(74, 582);
-            this.trackSpeed.Minimum = 1;
-            this.trackSpeed.Name = "trackSpeed";
-            this.trackSpeed.Size = new System.Drawing.Size(104, 45);
-            this.trackSpeed.TabIndex = 8;
-            this.trackSpeed.Value = 5;
-            this.trackSpeed.Scroll += new System.EventHandler(this.trackSpeed_Scroll);
+            this.trackBarSpeed.Location = new System.Drawing.Point(74, 582);
+            this.trackBarSpeed.Minimum = 1;
+            this.trackBarSpeed.Name = "trackBarSpeed";
+            this.trackBarSpeed.Size = new System.Drawing.Size(104, 45);
+            this.trackBarSpeed.TabIndex = 8;
+            this.trackBarSpeed.Value = 5;
+            this.trackBarSpeed.Scroll += new System.EventHandler(this.trackSpeed_Scroll);
             // 
             // btnExit
             // 
@@ -171,6 +171,8 @@
             this.comboAlgorithms.Name = "comboAlgorithms";
             this.comboAlgorithms.Size = new System.Drawing.Size(121, 21);
             this.comboAlgorithms.TabIndex = 1;
+            this.comboAlgorithms.SelectedIndexChanged += new System.EventHandler(this.comboAlgorithms_SelectedIndexChanged);
+            this.comboAlgorithms.Click += new System.EventHandler(this.comboAlgorithms_SelectedIndexChanged);
             // 
             // panelVisualizer
             // 
@@ -205,7 +207,7 @@
             this.statusStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackSpeed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -224,7 +226,7 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnExit;
-        private System.Windows.Forms.TrackBar trackSpeed;
+        private System.Windows.Forms.TrackBar trackBarSpeed;
         private System.Windows.Forms.Label lblSpeed;
     }
 }
