@@ -97,7 +97,10 @@ namespace SortVizualizer
                     case "Pigeonhole Sort":
                         await PigeonholeSort();
                         break;
-                    
+                    case "Gnome Sort":
+                        await GnomeSort();
+                        break;
+
 
                         // Add more cases for other algorithms
                 }
