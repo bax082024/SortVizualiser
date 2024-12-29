@@ -106,6 +106,9 @@ namespace SortVizualizer
                     case "Cycle Sort":
                         await CycleSort();
                         break;
+                    case "Bitonic Sort":
+                        await BitonicSortWrapper();
+                        break;
 
 
                         // Add more cases for other algorithms
