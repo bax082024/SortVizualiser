@@ -31,6 +31,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblSpeed = new System.Windows.Forms.Label();
             this.trackBarSpeed = new System.Windows.Forms.TrackBar();
             this.btnExit = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -40,7 +41,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.comboAlgorithms = new System.Windows.Forms.ComboBox();
             this.panelVisualizer = new System.Windows.Forms.Panel();
-            this.lblSpeed = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).BeginInit();
@@ -80,6 +80,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(744, 664);
             this.panel1.TabIndex = 1;
+            // 
+            // lblSpeed
+            // 
+            this.lblSpeed.AutoSize = true;
+            this.lblSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSpeed.Location = new System.Drawing.Point(89, 607);
+            this.lblSpeed.Name = "lblSpeed";
+            this.lblSpeed.Size = new System.Drawing.Size(73, 16);
+            this.lblSpeed.TabIndex = 10;
+            this.lblSpeed.Text = "Speed : 5";
             // 
             // trackBarSpeed
             // 
@@ -178,7 +188,9 @@
             "",
             "Quick Sort",
             "",
-            "Heap Sort"});
+            "Heap Sort",
+            "",
+            "Counting Sort"});
             this.comboAlgorithms.Location = new System.Drawing.Point(71, 537);
             this.comboAlgorithms.Name = "comboAlgorithms";
             this.comboAlgorithms.Size = new System.Drawing.Size(121, 21);
@@ -194,16 +206,6 @@
             this.panelVisualizer.Size = new System.Drawing.Size(600, 400);
             this.panelVisualizer.TabIndex = 0;
             this.panelVisualizer.Paint += new System.Windows.Forms.PaintEventHandler(this.panelVisualizer_Paint);
-            // 
-            // lblSpeed
-            // 
-            this.lblSpeed.AutoSize = true;
-            this.lblSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSpeed.Location = new System.Drawing.Point(89, 607);
-            this.lblSpeed.Name = "lblSpeed";
-            this.lblSpeed.Size = new System.Drawing.Size(73, 16);
-            this.lblSpeed.TabIndex = 10;
-            this.lblSpeed.Text = "Speed : 5";
             // 
             // SortVizualiserForm
             // 

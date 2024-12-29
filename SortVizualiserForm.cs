@@ -495,6 +495,49 @@ namespace SortVizualizer
             }
         }
 
+        private async Task CountingSort()
+        {
+            if (data.Count == 0) return;
+
+            // Find the maximum value in the data
+            int maxValue = data.Max();
+
+            // Create the count array
+            int[] count = new int[maxValue + 1];
+
+            // Count the occurrences of each element
+            foreach (var value in data)
+            {
+                count[value]++;
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 5); // Delay to visualize counting
+            }
+
+            // Rebuild the sorted data
+            int index = 0;
+            for (int i = 0; i < count.Length; i++)
+            {
+                while (count[i] > 0)
+                {
+                    data[index] = i;
+                    index++;
+                    count[i]--;
+
+                    // Redraw the visualization
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 5); // Delay for visualization
+
+                    if (cancelRequested) return; // Cancel if requested
+                }
+            }
+
+            // Reset indices for coloring
+            currentIndex = -1;
+            comparingIndex = -1;
+
+            // Inform the user that sorting is complete
+            MessageBox.Show("Counting Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
 
 
 
