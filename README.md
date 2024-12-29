@@ -52,3 +52,22 @@ educational way to visualize sorting algorithms in action.
 ## Screenshot
 
 <img src="Images/1.png" alt="1" width="400"><img src="Images/2.png" alt="1" width="400">
+
+---
+
+## Installation
+
+1. **Clone repository:**
+	- https://github.com/bax082024/SortVizualiser.git
+2. Open the project in **Visual Studio**.
+3. **Rebuild Project**.
+4. Run and enjoy.
+
+---
+
+## Contact
+
+For questions or feedback, please contact:
+	- **bax082024@gmail.com**
+
+---
