@@ -64,6 +64,9 @@ namespace SortVizualizer
                     case "Selection Sort":
                         await SelectionSort();
                         break;
+                    case "Insertion Sort":
+                        await InsertionSort();
+                        break;
 
                         // Add more cases for other algorithms
                 }
@@ -246,6 +249,98 @@ namespace SortVizualizer
 
             MessageBox.Show("Insertion Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private async Task MergeSort(int left, int right)
+        {
+            if (left < right)
+            {
+                int mid = (left + right) / 2;
+
+                // Recursively sort the first half
+                await MergeSort(left, mid);
+                if (cancelRequested) return;
+
+                // Recursively sort the second half
+                await MergeSort(mid + 1, right);
+                if (cancelRequested) return;
+
+                // Merge the sorted halves
+                await Merge(left, mid, right);
+            }
+        }
+
+        private async Task Merge(int left, int mid, int right)
+        {
+            int n1 = mid - left + 1;
+            int n2 = right - mid;
+
+            int[] leftArray = new int[n1];
+            int[] rightArray = new int[n2];
+
+            // Copy data to temporary arrays
+            for (int i = 0; i < n1; i++)
+                leftArray[i] = data[left + i];
+            for (int i = 0; i < n2; i++)
+                rightArray[i] = data[mid + 1 + i];
+
+            int iLeft = 0, iRight = 0, k = left;
+
+            // Merge the temporary arrays back into the original
+            while (iLeft < n1 && iRight < n2)
+            {
+                currentIndex = k; // Highlight the current merge position
+                comparingIndex = left + iLeft; // Highlight left array element being compared
+                panelVisualizer.Invalidate();
+
+                if (leftArray[iLeft] <= rightArray[iRight])
+                {
+                    data[k] = leftArray[iLeft];
+                    iLeft++;
+                }
+                else
+                {
+                    data[k] = rightArray[iRight];
+                    iRight++;
+                }
+                k++;
+
+                // Delay for visualization
+                await Task.Delay(trackBarSpeed.Value * 10);
+                if (cancelRequested) return;
+            }
+
+            // Copy remaining elements of leftArray
+            while (iLeft < n1)
+            {
+                currentIndex = k;
+                comparingIndex = left + iLeft;
+                data[k] = leftArray[iLeft];
+                iLeft++;
+                k++;
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 10);
+                if (cancelRequested) return;
+            }
+
+            // Copy remaining elements of rightArray
+            while (iRight < n2)
+            {
+                currentIndex = k;
+                comparingIndex = mid + 1 + iRight;
+                data[k] = rightArray[iRight];
+                iRight++;
+                k++;
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 10);
+                if (cancelRequested) return;
+            }
+
+            // Reset indices after merging
+            currentIndex = -1;
+            comparingIndex = -1;
+        }
+
+
 
 
         private void comboAlgorithms_SelectedIndexChanged(object sender, EventArgs e)
