@@ -103,6 +103,19 @@ namespace SortVizualizer
                     case "Comb Sort":
                         await CombSort();
                         break;
+                    case "Cycle Sort":
+                        await CycleSort();
+                        break;
+                    case "Bitonic Sort":
+                        await BitonicSortWrapper();
+                        break;
+                    case "Odd-Even Sort":
+                        await OddEvenSort();
+                        break;
+                    case "Flash Sort":
+                        await FlashSort();
+                        break;
+
 
 
                         // Add more cases for other algorithms
@@ -1012,7 +1025,330 @@ namespace SortVizualizer
             MessageBox.Show("Comb Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private async Task CycleSort()
+        {
+            if (data == null || data.Count == 0)
+            {
+                MessageBox.Show("No data to sort!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            for (int cycleStart = 0; cycleStart < data.Count - 1; cycleStart++)
+            {
+                int item = data[cycleStart];
+                int pos = cycleStart;
+
+                // Find the position where we put the element
+                for (int i = cycleStart + 1; i < data.Count; i++)
+                {
+                    comparingIndex = i; // Highlight comparison index
+                    if (data[i] < item)
+                    {
+                        pos++;
+                    }
+
+                    // Visualize comparison
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 10);
+                    if (cancelRequested) return;
+                }
+
+                // Skip duplicate elements
+                if (pos == cycleStart) continue;
+
+                // Put the item to the right position
+                while (item == data[pos]) pos++;
+                int temp = data[pos];
+                data[pos] = item;
+                item = temp;
+
+                // Visualize placement
+                currentIndex = pos;
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 10);
+                if (cancelRequested) return;
+
+                // Rotate the rest of the cycle
+                while (pos != cycleStart)
+                {
+                    pos = cycleStart;
+
+                    for (int i = cycleStart + 1; i < data.Count; i++)
+                    {
+                        comparingIndex = i; // Highlight comparison index
+                        if (data[i] < item)
+                        {
+                            pos++;
+                        }
+
+                        // Visualize comparison
+                        panelVisualizer.Invalidate();
+                        await Task.Delay(trackBarSpeed.Value * 10);
+                        if (cancelRequested) return;
+                    }
+
+                    while (item == data[pos]) pos++;
+                    temp = data[pos];
+                    data[pos] = item;
+                    item = temp;
+
+                    // Visualize placement
+                    currentIndex = pos;
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 10);
+                    if (cancelRequested) return;
+                }
+            }
+
+            // Reset indices
+            currentIndex = -1;
+            comparingIndex = -1;
+            panelVisualizer.Invalidate();
+
+            MessageBox.Show("Cycle Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private async Task BitonicSort(int low, int count, bool ascending)
+        {
+            if (count <= 1) return;
+
+            int k = count / 2;
+
+            // Sort the first half in ascending order
+            await BitonicSort(low, k, true);
+
+            // Sort the second half in descending order
+            await BitonicSort(low + k, k, false);
+
+            // Merge the entire sequence
+            await BitonicMerge(low, count, ascending);
+        }
+
+        private async Task BitonicMerge(int low, int count, bool ascending)
+        {
+            if (count <= 1) return;
+
+            int k = count / 2;
+            for (int i = low; i < low + k; i++)
+            {
+                comparingIndex = i + k; // Highlight the index being compared
+                if ((ascending && data[i] > data[i + k]) || (!ascending && data[i] < data[i + k]))
+                {
+                    // Swap elements
+                    int temp = data[i];
+                    data[i] = data[i + k];
+                    data[i + k] = temp;
+                }
+
+                // Visualize comparison
+                currentIndex = i; // Highlight the current index
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 10);
+                if (cancelRequested) return;
+            }
+
+            // Merge both halves
+            await BitonicMerge(low, k, ascending);
+            await BitonicMerge(low + k, k, ascending);
+        }
+
+        private async Task BitonicSortWrapper()
+        {
+            cancelRequested = false; // Reset cancellation flag
+
+            // Calculate the next power of 2
+            int nextPowerOfTwo = 1;
+            while (nextPowerOfTwo < data.Count)
+            {
+                nextPowerOfTwo *= 2;
+            }
+
+            // Add padding to make the size a power of 2
+            while (data.Count < nextPowerOfTwo)
+            {
+                data.Add(0); // Add 0 as padding
+            }
+
+            await BitonicSort(0, data.Count, true);
+
+            // Remove any padding
+            data.RemoveAll(x => x == 0);
+
+            // Reset indices
+            currentIndex = -1;
+            comparingIndex = -1;
+            panelVisualizer.Invalidate();
+
+            MessageBox.Show("Bitonic Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private async Task OddEvenSort()
+        {
+            if (data.Count == 0) return;
+
+            bool sorted = false;
+
+            while (!sorted)
+            {
+                sorted = true;
+
+                // Perform odd-indexed passes
+                for (int i = 1; i < data.Count - 1; i += 2)
+                {
+                    currentIndex = i;       // Highlight the current index
+                    comparingIndex = i + 1; // Highlight the next index
+
+                    if (data[i] > data[i + 1])
+                    {
+                        // Swap if out of order
+                        int temp = data[i];
+                        data[i] = data[i + 1];
+                        data[i + 1] = temp;
+
+                        sorted = false; // Mark as not sorted
+                    }
+
+                    // Update visualization
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 10);
+
+                    if (cancelRequested) return; // Stop if canceled
+                }
+
+                // Perform even-indexed passes
+                for (int i = 0; i < data.Count - 1; i += 2)
+                {
+                    currentIndex = i;       // Highlight the current index
+                    comparingIndex = i + 1; // Highlight the next index
+
+                    if (data[i] > data[i + 1])
+                    {
+                        // Swap if out of order
+                        int temp = data[i];
+                        data[i] = data[i + 1];
+                        data[i + 1] = temp;
+
+                        sorted = false; // Mark as not sorted
+                    }
+
+                    // Update visualization
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 10);
+
+                    if (cancelRequested) return; // Stop if canceled
+                }
+            }
+
+            // Reset indices after sorting
+            currentIndex = -1;
+            comparingIndex = -1;
+            panelVisualizer.Invalidate();
+
+            MessageBox.Show("Odd-Even Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private async Task FlashSort()
+        {
+            if (data.Count <= 1) return;
+
+            int n = data.Count;
+            int m = Math.Max(1, n / 10); // Number of "buckets"
+            int[] l = new int[m]; // Count array for buckets
+            int min = data.Min();
+            int maxIndex = 0;
+
+            // Find the max value and its index
+            for (int i = 1; i < n; i++)
+            {
+                if (data[i] > data[maxIndex])
+                    maxIndex = i;
+
+                currentIndex = i; // Highlight the current element
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 5);
+
+                if (cancelRequested) return; // Cancel if requested
+            }
+
+            int max = data[maxIndex];
+
+            // Edge case: all elements are the same
+            if (max == min) return;
+
+            // Compute bucket indices
+            for (int i = 0; i < n; i++)
+            {
+                int bucketIndex = (int)((m - 1) * (double)(data[i] - min) / (max - min));
+                l[bucketIndex]++;
+            }
+
+            // Accumulate counts
+            for (int i = 1; i < m; i++)
+            {
+                l[i] += l[i - 1];
+            }
+
+            // Permutation: Place elements into correct buckets
+            int move = 0;
+            int j = 0;
+            int k = m - 1;
+
+            while (move < n - 1)
+            {
+                while (j > l[k] - 1)
+                {
+                    j++;
+                    k = (int)((m - 1) * (double)(data[j] - min) / (max - min));
+                }
+
+                int flash = data[j];
+                while (j != l[k])
+                {
+                    k = (int)((m - 1) * (double)(flash - min) / (max - min));
+                    int pos = --l[k];
+                    int temp = data[pos];
+                    data[pos] = flash;
+                    flash = temp;
+
+                    currentIndex = pos; // Highlight the current element
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 5);
+
+                    if (cancelRequested) return; // Cancel if requested
+
+                    move++;
+                }
+            }
+
+            // Finish with Insertion Sort for small subarrays
+            for (int i = 1; i < n; i++)
+            {
+                int key = data[i];
+                int j2 = i - 1;
+
+                while (j2 >= 0 && data[j2] > key)
+                {
+                    data[j2 + 1] = data[j2];
+                    j2--;
+
+                    currentIndex = j2 + 1;
+                    comparingIndex = j2;
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 5);
+
+                    if (cancelRequested) return; // Cancel if requested
+                }
+
+                data[j2 + 1] = key;
+            }
+
+            // Reset indices after sorting
+            currentIndex = -1;
+            comparingIndex = -1;
+            panelVisualizer.Invalidate();
+
+            MessageBox.Show("Flash Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
 
 
 
@@ -1037,6 +1373,11 @@ namespace SortVizualizer
             {
                 MessageBox.Show($"You selected: {selectedAlgorithm}", "Algorithm Selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void SortVizualiserForm_Load(object sender, EventArgs e)
+        {
+
         }
         //fsdf
     }
