@@ -115,6 +115,10 @@ namespace SortVizualizer
                     case "Flash Sort":
                         await FlashSort();
                         break;
+                    case "Strand Sort":
+                        await StrandSortWrapper();
+                        break;
+
 
 
 
