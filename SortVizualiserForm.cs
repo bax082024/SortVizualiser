@@ -94,6 +94,9 @@ namespace SortVizualizer
                     case "Pigeonhole Sort":
                         await PigeonholeSort();
                         break;
+                    case "Cocktail Shaker Sort":
+                        await CocktailShakerSort();
+                        break;
 
                         // Add more cases for other algorithms
                 }
