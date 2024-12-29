@@ -39,8 +39,10 @@
             this.btnReset = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
+            this.trackSpeed = new System.Windows.Forms.TrackBar();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackSpeed)).BeginInit();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -62,6 +64,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.trackSpeed);
             this.panel1.Controls.Add(this.btnExit);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.btnReset);
@@ -161,6 +164,15 @@
             this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = false;
             // 
+            // trackSpeed
+            // 
+            this.trackSpeed.Location = new System.Drawing.Point(74, 564);
+            this.trackSpeed.Minimum = 1;
+            this.trackSpeed.Name = "trackSpeed";
+            this.trackSpeed.Size = new System.Drawing.Size(104, 45);
+            this.trackSpeed.TabIndex = 8;
+            this.trackSpeed.Value = 5;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -175,6 +187,7 @@
             this.statusStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackSpeed)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -193,6 +206,7 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.TrackBar trackSpeed;
     }
 }
 
