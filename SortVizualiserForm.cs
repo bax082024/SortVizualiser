@@ -340,6 +340,11 @@ namespace SortVizualizer
             comparingIndex = -1;
         }
 
+        private async Task MergeSortWrapper()
+        {
+            await MergeSort(0, data.Count - 1);
+            MessageBox.Show("Merge Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
 
 
 
