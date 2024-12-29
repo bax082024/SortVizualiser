@@ -1012,6 +1012,89 @@ namespace SortVizualizer
             MessageBox.Show("Comb Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private async Task CycleSort()
+        {
+            if (data == null || data.Count == 0)
+            {
+                MessageBox.Show("No data to sort!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            for (int cycleStart = 0; cycleStart < data.Count - 1; cycleStart++)
+            {
+                int item = data[cycleStart];
+                int pos = cycleStart;
+
+                // Find the position where we put the element
+                for (int i = cycleStart + 1; i < data.Count; i++)
+                {
+                    comparingIndex = i; // Highlight comparison index
+                    if (data[i] < item)
+                    {
+                        pos++;
+                    }
+
+                    // Visualize comparison
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 10);
+                    if (cancelRequested) return;
+                }
+
+                // Skip duplicate elements
+                if (pos == cycleStart) continue;
+
+                // Put the item to the right position
+                while (item == data[pos]) pos++;
+                int temp = data[pos];
+                data[pos] = item;
+                item = temp;
+
+                // Visualize placement
+                currentIndex = pos;
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 10);
+                if (cancelRequested) return;
+
+                // Rotate the rest of the cycle
+                while (pos != cycleStart)
+                {
+                    pos = cycleStart;
+
+                    for (int i = cycleStart + 1; i < data.Count; i++)
+                    {
+                        comparingIndex = i; // Highlight comparison index
+                        if (data[i] < item)
+                        {
+                            pos++;
+                        }
+
+                        // Visualize comparison
+                        panelVisualizer.Invalidate();
+                        await Task.Delay(trackBarSpeed.Value * 10);
+                        if (cancelRequested) return;
+                    }
+
+                    while (item == data[pos]) pos++;
+                    temp = data[pos];
+                    data[pos] = item;
+                    item = temp;
+
+                    // Visualize placement
+                    currentIndex = pos;
+                    panelVisualizer.Invalidate();
+                    await Task.Delay(trackBarSpeed.Value * 10);
+                    if (cancelRequested) return;
+                }
+            }
+
+            // Reset indices
+            currentIndex = -1;
+            comparingIndex = -1;
+            panelVisualizer.Invalidate();
+
+            MessageBox.Show("Cycle Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
 
 
 
@@ -1037,6 +1120,11 @@ namespace SortVizualizer
             {
                 MessageBox.Show($"You selected: {selectedAlgorithm}", "Algorithm Selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void SortVizualiserForm_Load(object sender, EventArgs e)
+        {
+
         }
         //fsdf
     }
