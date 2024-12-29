@@ -79,6 +79,23 @@ namespace SortVizualizer
             panelVisualizer.Invalidate(); // Redraw the panel
         }
 
+        private void panelVisualizer_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            int barWidth = panelVisualizer.Width / data.Count; // Calculate bar width based on data size
+
+            for (int i = 0; i < data.Count; i++)
+            {
+                int barHeight = data[i];
+                int x = i * barWidth;
+                int y = panelVisualizer.Height - barHeight;
+
+                // Draw each bar as a rectangle
+                g.FillRectangle(Brushes.Blue, x, y, barWidth - 2, barHeight);
+            }
+        }
+
+
 
 
 
