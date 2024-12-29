@@ -82,6 +82,9 @@ namespace SortVizualizer
                     case "Radix Sort":
                         await RadixSort()
                             ; break;
+                    case "Shell Sort":
+                        await ShellSort();
+                        break;
 
                         // Add more cases for other algorithms
                 }
