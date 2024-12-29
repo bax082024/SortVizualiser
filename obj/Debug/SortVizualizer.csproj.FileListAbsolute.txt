@@ -1,0 +1,10 @@
+C:\HjemmeKode\C-Sharp\MyProjects\SortVizualizer\bin\Debug\SortVizualizer.exe.config
+C:\HjemmeKode\C-Sharp\MyProjects\SortVizualizer\bin\Debug\SortVizualizer.exe
+C:\HjemmeKode\C-Sharp\MyProjects\SortVizualizer\bin\Debug\SortVizualizer.pdb
+C:\HjemmeKode\C-Sharp\MyProjects\SortVizualizer\obj\Debug\SortVizualizer.csproj.AssemblyReference.cache
+C:\HjemmeKode\C-Sharp\MyProjects\SortVizualizer\obj\Debug\SortVizualizer.SortVizualiserForm.resources
+C:\HjemmeKode\C-Sharp\MyProjects\SortVizualizer\obj\Debug\SortVizualizer.Properties.Resources.resources
+C:\HjemmeKode\C-Sharp\MyProjects\SortVizualizer\obj\Debug\SortVizualizer.csproj.GenerateResource.cache
+C:\HjemmeKode\C-Sharp\MyProjects\SortVizualizer\obj\Debug\SortVizualizer.csproj.CoreCompileInputs.cache
+C:\HjemmeKode\C-Sharp\MyProjects\SortVizualizer\obj\Debug\SortVizualizer.exe
+C:\HjemmeKode\C-Sharp\MyProjects\SortVizualizer\obj\Debug\SortVizualizer.pdb

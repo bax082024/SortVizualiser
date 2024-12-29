@@ -415,6 +415,86 @@ namespace SortVizualizer
             MessageBox.Show("Quick Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private async Task HeapSort()
+        {
+            int n = data.Count;
+
+            // Build the heap (rearrange array)
+            for (int i = n / 2 - 1; i >= 0; i--)
+            {
+                await Heapify(n, i);
+                if (cancelRequested) return; // Check for cancel
+            }
+
+            // One by one extract elements from the heap
+            for (int i = n - 1; i > 0; i--)
+            {
+                // Swap the root (largest element) with the last element
+                int temp = data[0];
+                data[0] = data[i];
+                data[i] = temp;
+
+                currentIndex = 0;       // Highlight the root
+                comparingIndex = i;     // Highlight the current element being swapped
+
+                panelVisualizer.Invalidate(); // Redraw visualization
+                await Task.Delay(trackBarSpeed.Value * 10);
+                if (cancelRequested) return; // Check for cancel
+
+                // Call heapify on the reduced heap
+                await Heapify(i, 0);
+                if (cancelRequested) return; // Check for cancel
+            }
+
+            currentIndex = -1;
+            comparingIndex = -1;
+
+            panelVisualizer.Invalidate(); // Final refresh
+            MessageBox.Show("Sorting Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        // To heapify a subtree rooted at index i
+        private async Task Heapify(int n, int i)
+        {
+            int largest = i; // Initialize largest as root
+            int left = 2 * i + 1; // Left child
+            int right = 2 * i + 2; // Right child
+
+            // If left child is larger than root
+            if (left < n && data[left] > data[largest])
+            {
+                largest = left;
+            }
+
+            // If right child is larger than largest so far
+            if (right < n && data[right] > data[largest])
+            {
+                largest = right;
+            }
+
+            // If largest is not root
+            if (largest != i)
+            {
+                // Swap root with the largest
+                int swap = data[i];
+                data[i] = data[largest];
+                data[largest] = swap;
+
+                currentIndex = i;       // Highlight the current root
+                comparingIndex = largest; // Highlight the largest child
+
+                panelVisualizer.Invalidate(); // Redraw visualization
+                await Task.Delay(trackBarSpeed.Value * 10);
+                if (cancelRequested) return; // Check for cancel
+
+                // Recursively heapify the affected subtree
+                await Heapify(n, largest);
+            }
+        }
+
+
+
+
 
         private void comboAlgorithms_SelectedIndexChanged(object sender, EventArgs e)
         {
