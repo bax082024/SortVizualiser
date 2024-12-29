@@ -111,6 +111,7 @@
             this.btnExit.TabIndex = 7;
             this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = false;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // label2
             // 
@@ -133,6 +134,7 @@
             this.btnReset.TabIndex = 5;
             this.btnReset.Text = "Reset";
             this.btnReset.UseVisualStyleBackColor = false;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // btnCancel
             // 
@@ -145,6 +147,7 @@
             this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnStart
             // 
@@ -157,6 +160,7 @@
             this.btnStart.TabIndex = 3;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = false;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // label1
             // 

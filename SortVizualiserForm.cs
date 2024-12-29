@@ -32,7 +32,24 @@ namespace SortVizualizer
             comboAlgorithms.SelectedIndex = 0; // Default selection
         }
 
+        private void btnStart_Click(object sender, EventArgs e)
+        {
 
+        }
 
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
