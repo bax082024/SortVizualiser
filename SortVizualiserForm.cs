@@ -67,6 +67,9 @@ namespace SortVizualizer
                     case "Insertion Sort":
                         await InsertionSort();
                         break;
+                    case "Merge Sort":
+                        await MergeSortWrapper();
+                        break;
 
                         // Add more cases for other algorithms
                 }
