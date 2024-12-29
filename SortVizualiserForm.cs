@@ -88,6 +88,9 @@ namespace SortVizualizer
                     case "Bucket Sort":
                         await BucketSort();
                         break;
+                    case "Tim Sort":
+                        await TimSort();
+                        break;
 
                         // Add more cases for other algorithms
                 }
