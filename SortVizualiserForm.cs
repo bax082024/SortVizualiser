@@ -99,6 +99,30 @@ namespace SortVizualizer
             }
         }
 
+        private async Task BubbleSort()
+        {
+            for (int i = 0; i < data.Count - 1; i++)
+            {
+                for (int j = 0; j < data.Count - i - 1; j++)
+                {
+                    if (data[j] > data[j + 1])
+                    {
+                        // Swap elements
+                        int temp = data[j];
+                        data[j] = data[j + 1];
+                        data[j + 1] = temp;
+
+                        // Redraw the visualization
+                        panelVisualizer.Invalidate();
+
+                        // Delay for visualization based on the speed slider
+                        await Task.Delay(trackBarSpeed.Value * 10);
+                    }
+                }
+            }
+        }
+
+
 
 
 
