@@ -112,6 +112,10 @@ namespace SortVizualizer
                     case "Odd-Even Sort":
                         await OddEvenSort();
                         break;
+                    case "Flash Sort":
+                        await FlashSort();
+                        break;
+
 
 
                         // Add more cases for other algorithms
