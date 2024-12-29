@@ -14,8 +14,8 @@ namespace SortVizualizer
     public partial class SortVizualiserForm : Form
     {
         private List<int> data = new List<int>();
-        private int currentIndex = -1; // Current comparison index
-        private int comparingIndex = -1; // Second bar being compared
+        private int currentIndex = -1;
+        private int comparingIndex = -1;
         private bool cancelRequested = false;
         private bool isAlgorithmManuallySelected = false;
 
@@ -29,8 +29,7 @@ namespace SortVizualizer
         {
             
 
-             // Set default selection
-            GenerateRandomData(50); // Generate initial data with 50 bars
+            GenerateRandomData(50);
 
             isAlgorithmManuallySelected = true;
         }
@@ -44,14 +43,13 @@ namespace SortVizualizer
         {
             cancelRequested = false;
 
-            // Ensure data exists before starting
             if (data == null || data.Count == 0)
             {
-                GenerateRandomData(50); // Generate a default data set
+                GenerateRandomData(50);
             }
 
-            btnStart.Enabled = false; // Disable the Start button during sorting
-            btnReset.Enabled = false; // Disable Reset during sorting
+            btnStart.Enabled = false;
+            btnReset.Enabled = false;
 
             string selectedAlgorithm = comboAlgorithms.SelectedItem?.ToString();
 
@@ -121,12 +119,11 @@ namespace SortVizualizer
 
 
 
-                        // Add more cases for other algorithms
                 }
             }
 
-            btnStart.Enabled = true; // Re-enable Start button after sorting
-            btnReset.Enabled = true; // Re-enable Reset button after sorting
+            btnStart.Enabled = true;
+            btnReset.Enabled = true;
         }
 
 
@@ -164,16 +161,15 @@ namespace SortVizualizer
 
             for (int i = 0; i < size; i++)
             {
-                // Generate random values between 10 and 300 (adjust for panel height)
                 data.Add(random.Next(10, panelVisualizer.Height - 10));
             }
 
-            panelVisualizer.Invalidate(); // Redraw the panel
+            panelVisualizer.Invalidate();
         }
 
         private void panelVisualizer_Paint(object sender, PaintEventArgs e)
         {
-            if (data.Count == 0) return; // Exit early if no data to visualize
+            if (data.Count == 0) return;
 
             Graphics g = e.Graphics;
             int barWidth = panelVisualizer.Width / data.Count;
@@ -182,8 +178,8 @@ namespace SortVizualizer
             {
                 Brush brush = Brushes.Blue;
 
-                if (i == currentIndex) brush = Brushes.Red; // Highlight the current bar
-                else if (i == comparingIndex) brush = Brushes.Green; // Highlight the comparing bar
+                if (i == currentIndex) brush = Brushes.Red;
+                else if (i == comparingIndex) brush = Brushes.Green;
 
                 int barHeight = data[i];
                 int x = i * barWidth;
@@ -199,24 +195,21 @@ namespace SortVizualizer
             {
                 for (int j = 0; j < data.Count - i - 1; j++)
                 {
-                    currentIndex = j; // Update the current index
-                    comparingIndex = j + 1; // Update the comparing index
+                    currentIndex = j;
+                    comparingIndex = j + 1;
 
                     if (data[j] > data[j + 1])
                     {
-                        // Swap elements
                         int temp = data[j];
                         data[j] = data[j + 1];
                         data[j + 1] = temp;
                     }
 
-                    // Redraw the visualization
                     panelVisualizer.Invalidate();
 
-                    // Delay for visualization based on the speed slider
                     await Task.Delay(trackBarSpeed.Value * 10);
 
-                    if (cancelRequested) return; // Stop sorting if canceled
+                    if (cancelRequested) return;
                 }
             }
         }
@@ -226,26 +219,23 @@ namespace SortVizualizer
             for (int i = 0; i < data.Count - 1; i++)
             {
                 int minIndex = i;
-                currentIndex = i; // Update the index for coloring
+                currentIndex = i;
 
                 for (int j = i + 1; j < data.Count; j++)
                 {
-                    comparingIndex = j; // Update the second index for coloring
+                    comparingIndex = j;
                     if (data[j] < data[minIndex])
                     {
                         minIndex = j;
                     }
 
-                    // Redraw the visualization
                     panelVisualizer.Invalidate();
 
-                    // Delay for visualization based on the speed slider
                     await Task.Delay(trackBarSpeed.Value * 10);
 
-                    if (cancelRequested) return; // Check if sorting was canceled
+                    if (cancelRequested) return;
                 }
 
-                // Swap the elements
                 if (minIndex != i)
                 {
                     int temp = data[i];
@@ -253,11 +243,10 @@ namespace SortVizualizer
                     data[minIndex] = temp;
                 }
 
-                // Redraw the visualization
+
                 panelVisualizer.Invalidate();
             }
 
-            // Reset indices after sorting
             currentIndex = -1;
             comparingIndex = -1;
 
@@ -271,32 +260,30 @@ namespace SortVizualizer
                 int key = data[i];
                 int j = i - 1;
 
-                currentIndex = i; // Mark the current element
-                comparingIndex = j; // Mark the element being compared
+                currentIndex = i;
+                comparingIndex = j;
 
                 while (j >= 0 && data[j] > key)
                 {
                     data[j + 1] = data[j];
                     j--;
 
-                    // Update visualization
-                    comparingIndex = j; // Update the comparison index
+
+                    comparingIndex = j;
                     panelVisualizer.Invalidate();
                     await Task.Delay(trackBarSpeed.Value * 10);
 
-                    if (cancelRequested) return; // Stop if cancel is requested
+                    if (cancelRequested) return;
                 }
 
                 data[j + 1] = key;
 
-                // Update visualization after placing the key
                 panelVisualizer.Invalidate();
                 await Task.Delay(trackBarSpeed.Value * 10);
 
-                if (cancelRequested) return; // Stop if cancel is requested
+                if (cancelRequested) return; 
             }
 
-            // Reset indices
             currentIndex = -1;
             comparingIndex = -1;
 
@@ -309,15 +296,12 @@ namespace SortVizualizer
             {
                 int mid = (left + right) / 2;
 
-                // Recursively sort the first half
                 await MergeSort(left, mid);
                 if (cancelRequested) return;
 
-                // Recursively sort the second half
                 await MergeSort(mid + 1, right);
                 if (cancelRequested) return;
 
-                // Merge the sorted halves
                 await Merge(left, mid, right);
             }
         }
@@ -330,7 +314,6 @@ namespace SortVizualizer
             int[] leftArray = new int[n1];
             int[] rightArray = new int[n2];
 
-            // Copy data to temporary arrays
             for (int i = 0; i < n1; i++)
                 leftArray[i] = data[left + i];
             for (int i = 0; i < n2; i++)
@@ -338,11 +321,10 @@ namespace SortVizualizer
 
             int iLeft = 0, iRight = 0, k = left;
 
-            // Merge the temporary arrays back into the original
             while (iLeft < n1 && iRight < n2)
             {
-                currentIndex = k; // Highlight the current merge position
-                comparingIndex = left + iLeft; // Highlight left array element being compared
+                currentIndex = k;
+                comparingIndex = left + iLeft;
                 panelVisualizer.Invalidate();
 
                 if (leftArray[iLeft] <= rightArray[iRight])
@@ -357,12 +339,11 @@ namespace SortVizualizer
                 }
                 k++;
 
-                // Delay for visualization
                 await Task.Delay(trackBarSpeed.Value * 10);
                 if (cancelRequested) return;
             }
 
-            // Copy remaining elements of leftArray
+
             while (iLeft < n1)
             {
                 currentIndex = k;
@@ -375,7 +356,6 @@ namespace SortVizualizer
                 if (cancelRequested) return;
             }
 
-            // Copy remaining elements of rightArray
             while (iRight < n2)
             {
                 currentIndex = k;
@@ -388,7 +368,6 @@ namespace SortVizualizer
                 if (cancelRequested) return;
             }
 
-            // Reset indices after merging
             currentIndex = -1;
             comparingIndex = -1;
         }
@@ -405,7 +384,6 @@ namespace SortVizualizer
             {
                 int pivotIndex = await Partition(left, right);
 
-                // Recursively sort elements before and after the pivot
                 await QuickSort(left, pivotIndex - 1);
                 await QuickSort(pivotIndex + 1, right);
             }
@@ -413,31 +391,28 @@ namespace SortVizualizer
 
         private async Task<int> Partition(int left, int right)
         {
-            int pivot = data[right]; // Choose the rightmost element as the pivot
+            int pivot = data[right];
             int i = left - 1;
 
-            // Highlight the pivot
             currentIndex = right;
 
             for (int j = left; j < right; j++)
             {
-                comparingIndex = j; // Highlight the current element being compared
+                comparingIndex = j;
 
                 if (data[j] < pivot)
                 {
                     i++;
-                    // Swap data[i] and data[j]
                     int temp = data[i];
                     data[i] = data[j];
                     data[j] = temp;
 
-                    panelVisualizer.Invalidate(); // Redraw visualization
+                    panelVisualizer.Invalidate();
                     await Task.Delay(trackBarSpeed.Value * 10);
                     if (cancelRequested) return -1;
                 }
             }
 
-            // Swap the pivot into its correct position
             int tempPivot = data[i + 1];
             data[i + 1] = data[right];
             data[right] = tempPivot;
@@ -446,16 +421,14 @@ namespace SortVizualizer
             await Task.Delay(trackBarSpeed.Value * 10);
             if (cancelRequested) return -1;
 
-            // Return the partition index
             return i + 1;
         }
 
         private async Task QuickSortWrapper()
         {
-            cancelRequested = false; // Ensure cancelRequested is reset
+            cancelRequested = false;
             await QuickSort(0, data.Count - 1);
 
-            // Reset indices after sorting
             currentIndex = -1;
             comparingIndex = -1;
 
@@ -466,75 +439,69 @@ namespace SortVizualizer
         {
             int n = data.Count;
 
-            // Build the heap (rearrange array)
             for (int i = n / 2 - 1; i >= 0; i--)
             {
                 await Heapify(n, i);
-                if (cancelRequested) return; // Check for cancel
+                if (cancelRequested) return;
             }
 
-            // One by one extract elements from the heap
+
             for (int i = n - 1; i > 0; i--)
             {
-                // Swap the root (largest element) with the last element
+
                 int temp = data[0];
                 data[0] = data[i];
                 data[i] = temp;
 
-                currentIndex = 0;       // Highlight the root
-                comparingIndex = i;     // Highlight the current element being swapped
+                currentIndex = 0;
+                comparingIndex = i;
 
-                panelVisualizer.Invalidate(); // Redraw visualization
+                panelVisualizer.Invalidate();
                 await Task.Delay(trackBarSpeed.Value * 10);
-                if (cancelRequested) return; // Check for cancel
+                if (cancelRequested) return;
 
-                // Call heapify on the reduced heap
                 await Heapify(i, 0);
-                if (cancelRequested) return; // Check for cancel
+                if (cancelRequested) return;
             }
 
             currentIndex = -1;
             comparingIndex = -1;
 
-            panelVisualizer.Invalidate(); // Final refresh
+            panelVisualizer.Invalidate();
             MessageBox.Show("Sorting Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        // To heapify a subtree rooted at index i
+
         private async Task Heapify(int n, int i)
         {
-            int largest = i; // Initialize largest as root
-            int left = 2 * i + 1; // Left child
-            int right = 2 * i + 2; // Right child
+            int largest = i;
+            int left = 2 * i + 1;
+            int right = 2 * i + 2; 
 
-            // If left child is larger than root
             if (left < n && data[left] > data[largest])
             {
                 largest = left;
             }
 
-            // If right child is larger than largest so far
             if (right < n && data[right] > data[largest])
             {
                 largest = right;
             }
 
-            // If largest is not root
+
             if (largest != i)
             {
-                // Swap root with the largest
                 int swap = data[i];
                 data[i] = data[largest];
                 data[largest] = swap;
 
-                currentIndex = i;       // Highlight the current root
-                comparingIndex = largest; // Highlight the largest child
+                currentIndex = i; 
+                comparingIndex = largest;
 
-                panelVisualizer.Invalidate(); // Redraw visualization
+                panelVisualizer.Invalidate();
                 await Task.Delay(trackBarSpeed.Value * 10);
-                if (cancelRequested) return; // Check for cancel
+                if (cancelRequested) return;
 
-                // Recursively heapify the affected subtree
                 await Heapify(n, largest);
             }
         }
@@ -543,21 +510,17 @@ namespace SortVizualizer
         {
             if (data.Count == 0) return;
 
-            // Find the maximum value in the data
             int maxValue = data.Max();
 
-            // Create the count array
             int[] count = new int[maxValue + 1];
 
-            // Count the occurrences of each element
             foreach (var value in data)
             {
                 count[value]++;
                 panelVisualizer.Invalidate();
-                await Task.Delay(trackBarSpeed.Value * 5); // Delay to visualize counting
+                await Task.Delay(trackBarSpeed.Value * 5);
             }
 
-            // Rebuild the sorted data
             int index = 0;
             for (int i = 0; i < count.Length; i++)
             {
@@ -567,19 +530,16 @@ namespace SortVizualizer
                     index++;
                     count[i]--;
 
-                    // Redraw the visualization d
                     panelVisualizer.Invalidate();
-                    await Task.Delay(trackBarSpeed.Value * 5); // Delay for visualization
+                    await Task.Delay(trackBarSpeed.Value * 5);
 
-                    if (cancelRequested) return; // Cancel if requested
+                    if (cancelRequested) return;
                 }
             }
 
-            // Reset indices for coloring
             currentIndex = -1;
             comparingIndex = -1;
 
-            // Inform the user that sorting is complete
             MessageBox.Show("Counting Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -587,71 +547,64 @@ namespace SortVizualizer
         {
             if (data.Count == 0) return;
 
-            // Find the maximum number to determine the number of digits
             int maxValue = data.Max();
-            int digitPosition = 1; // Start with the least significant digit
+            int digitPosition = 1;
 
             while (maxValue / digitPosition > 0)
             {
                 await CountingSortByDigit(digitPosition);
-                digitPosition *= 10; // Move to the next digit position
+                digitPosition *= 10;
 
-                if (cancelRequested) return; // Cancel if requested
+                if (cancelRequested) return;
             }
 
-            // Reset indices for coloring
             currentIndex = -1;
             comparingIndex = -1;
 
-            // Inform the user that sorting is complete
             MessageBox.Show("Radix Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private async Task CountingSortByDigit(int digitPosition)
         {
-            int[] count = new int[10]; // For digits 0 to 9
-            int[] output = new int[data.Count]; // Sorted output array
+            int[] count = new int[10];
+            int[] output = new int[data.Count];
 
-            // Count occurrences of each digit
             for (int i = 0; i < data.Count; i++)
             {
-                currentIndex = i; // Highlight the current bar being processed
-                int digit = (data[i] / digitPosition) % 10; // Extract the digit at the current position
+                currentIndex = i;
+                int digit = (data[i] / digitPosition) % 10;
                 count[digit]++;
                 panelVisualizer.Invalidate();
-                await Task.Delay(trackBarSpeed.Value * 5); // Delay for visualization
+                await Task.Delay(trackBarSpeed.Value * 5);
 
-                if (cancelRequested) return; // Cancel if requested
+                if (cancelRequested) return;
             }
 
-            // Update count[i] to store actual positions in the output array
             for (int i = 1; i < 10; i++)
             {
                 count[i] += count[i - 1];
             }
 
-            // Build the output array
             for (int i = data.Count - 1; i >= 0; i--)
             {
                 int digit = (data[i] / digitPosition) % 10;
                 output[count[digit] - 1] = data[i];
-                comparingIndex = count[digit] - 1; // Highlight where the number is being placed
+                comparingIndex = count[digit] - 1;
                 count[digit]--;
                 panelVisualizer.Invalidate();
-                await Task.Delay(trackBarSpeed.Value * 5); // Delay for visualization
+                await Task.Delay(trackBarSpeed.Value * 5);
 
-                if (cancelRequested) return; // Cancel if requested
+                if (cancelRequested) return;
             }
 
-            // Copy the output array back into the data list
             for (int i = 0; i < data.Count; i++)
             {
                 data[i] = output[i];
-                currentIndex = i; // Highlight the updated bar
+                currentIndex = i;
                 panelVisualizer.Invalidate();
-                await Task.Delay(trackBarSpeed.Value * 5); // Delay for visualization
+                await Task.Delay(trackBarSpeed.Value * 5);
 
-                if (cancelRequested) return; // Cancel if requested
+                if (cancelRequested) return;
             }
         }
 
@@ -659,7 +612,6 @@ namespace SortVizualizer
         {
             if (data.Count == 0) return;
 
-            // Start with a large gap and reduce it over time
             for (int gap = data.Count / 2; gap > 0; gap /= 2)
             {
                 for (int i = gap; i < data.Count; i++)
@@ -667,109 +619,92 @@ namespace SortVizualizer
                     int temp = data[i];
                     int j = i;
 
-                    // Perform gapped insertion sort
                     while (j >= gap && data[j - gap] > temp)
                     {
-                        currentIndex = j; // Highlight the current index
-                        comparingIndex = j - gap; // Highlight the comparison index
+                        currentIndex = j;
+                        comparingIndex = j - gap;
                         data[j] = data[j - gap];
 
-                        // Redraw the visualization
                         panelVisualizer.Invalidate();
-                        await Task.Delay(trackBarSpeed.Value * 5); // Delay for visualization
+                        await Task.Delay(trackBarSpeed.Value * 5);
 
                         j -= gap;
 
-                        if (cancelRequested) return; // Cancel if requested
+                        if (cancelRequested) return;
                     }
 
                     data[j] = temp;
 
-                    // Redraw the visualization
-                    currentIndex = j; // Highlight the placement index
+                    currentIndex = j;
                     panelVisualizer.Invalidate();
-                    await Task.Delay(trackBarSpeed.Value * 5); // Delay for visualization
+                    await Task.Delay(trackBarSpeed.Value * 5);
 
-                    if (cancelRequested) return; // Cancel if requested
+                    if (cancelRequested) return;
                 }
             }
 
-            // Reset indices for coloring
             currentIndex = -1;
             comparingIndex = -1;
 
-            // Inform the user that sorting is complete
             MessageBox.Show("Shell Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private async Task BucketSort()
         {
-            int bucketCount = 10; // Number of buckets
+            int bucketCount = 10;
             List<int>[] buckets = new List<int>[bucketCount];
 
-            // Initialize buckets
             for (int i = 0; i < bucketCount; i++)
             {
                 buckets[i] = new List<int>();
             }
 
-            // Determine the range of data
             int maxValue = data.Max();
             int minValue = data.Min();
             int range = (maxValue - minValue) / bucketCount + 1;
 
-            // Assign elements to buckets
             for (int i = 0; i < data.Count; i++)
             {
                 int bucketIndex = (data[i] - minValue) / range;
                 buckets[bucketIndex].Add(data[i]);
 
-                // Visualization: Highlight the assigned bucket
                 currentIndex = i;
-                comparingIndex = -1; // Reset comparing index
+                comparingIndex = -1;
                 panelVisualizer.Invalidate();
                 await Task.Delay(trackBarSpeed.Value * 10);
             }
 
-            // Sort each bucket and merge
             data.Clear();
             for (int i = 0; i < bucketCount; i++)
             {
-                // Sort the individual bucket
                 buckets[i].Sort();
 
-                // Add bucket contents back to the data list
                 foreach (var value in buckets[i])
                 {
                     data.Add(value);
 
-                    // Visualization: Show progress as elements are added
                     currentIndex = data.Count - 1;
-                    comparingIndex = -1; // Reset comparing index
+                    comparingIndex = -1;
                     panelVisualizer.Invalidate();
                     await Task.Delay(trackBarSpeed.Value * 10);
                 }
             }
 
-            // Reset indices after sorting
             currentIndex = -1;
             comparingIndex = -1;
 
-            // Notify the user
             MessageBox.Show("Bucket Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private async Task TimSort()
         {
-            int RUN = 32; // Size of each run (can be adjusted for testing)
+            int RUN = 32;
 
-            // Perform insertion sort on chunks of size RUN
             for (int i = 0; i < data.Count; i += RUN)
             {
                 await InsertionSortTim(data, i, Math.Min(i + RUN - 1, data.Count - 1));
             }
 
-            // Merge sorted chunks
             for (int size = RUN; size < data.Count; size = 2 * size)
             {
                 for (int left = 0; left < data.Count; left += 2 * size)
@@ -784,15 +719,12 @@ namespace SortVizualizer
                 }
             }
 
-            // Reset indices after sorting
             currentIndex = -1;
             comparingIndex = -1;
 
-            // Notify the user
             MessageBox.Show("Tim Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        // Helper method: Insertion sort for TimSort
         private async Task InsertionSortTim(List<int> arr, int left, int right)
         {
             for (int i = left + 1; i <= right; i++)
@@ -805,7 +737,6 @@ namespace SortVizualizer
                     arr[j + 1] = arr[j];
                     j--;
 
-                    // Visualization
                     currentIndex = i;
                     comparingIndex = j;
                     panelVisualizer.Invalidate();
@@ -814,13 +745,11 @@ namespace SortVizualizer
 
                 arr[j + 1] = temp;
 
-                // Visualization
                 panelVisualizer.Invalidate();
                 await Task.Delay(trackBarSpeed.Value * 10);
             }
         }
 
-        // Helper method: Merge for TimSort
         private async Task MergeTim(List<int> arr, int left, int mid, int right)
         {
             int len1 = mid - left + 1;
@@ -849,7 +778,6 @@ namespace SortVizualizer
                     j++;
                 }
 
-                // Visualization
                 currentIndex = k;
                 comparingIndex = -1;
                 panelVisualizer.Invalidate();
@@ -864,7 +792,6 @@ namespace SortVizualizer
                 i++;
                 k++;
 
-                // Visualization
                 currentIndex = k - 1;
                 comparingIndex = -1;
                 panelVisualizer.Invalidate();
@@ -877,7 +804,6 @@ namespace SortVizualizer
                 j++;
                 k++;
 
-                // Visualization
                 currentIndex = k - 1;
                 comparingIndex = -1;
                 panelVisualizer.Invalidate();
@@ -907,7 +833,6 @@ namespace SortVizualizer
                 {
                     data[index++] = value;
 
-                    // Highlight the current value being placed
                     currentIndex = index - 1;
                     panelVisualizer.Invalidate();
                     await Task.Delay(trackBarSpeed.Value * 10);
@@ -935,7 +860,7 @@ namespace SortVizualizer
 
             while (index < data.Count)
             {
-                currentIndex = index; // Highlight the current bar
+                currentIndex = index;
 
                 if (index == 0 || data[index] >= data[index - 1])
                 {
@@ -943,16 +868,15 @@ namespace SortVizualizer
                 }
                 else
                 {
-                    // Swap the elements
+
                     int temp = data[index];
                     data[index] = data[index - 1];
                     data[index - 1] = temp;
                     index--;
 
-                    comparingIndex = index; // Highlight the compared bar
+                    comparingIndex = index;
                 }
 
-                // Update visualization
                 panelVisualizer.Invalidate();
                 await Task.Delay(trackBarSpeed.Value * 10);
 
@@ -961,11 +885,10 @@ namespace SortVizualizer
                     currentIndex = -1;
                     comparingIndex = -1;
                     panelVisualizer.Invalidate();
-                    return; // Stop if canceled
+                    return;
                 }
             }
 
-            // Reset indices after sorting
             currentIndex = -1;
             comparingIndex = -1;
             panelVisualizer.Invalidate();
@@ -981,9 +904,9 @@ namespace SortVizualizer
                 return;
             }
 
-            int gap = data.Count; // Start with the full length
+            int gap = data.Count;
             bool swapped = true;
-            const double shrinkFactor = 1.3; // Factor to reduce the gap size
+            const double shrinkFactor = 1.3;
 
             while (gap > 1 || swapped)
             {
@@ -994,19 +917,17 @@ namespace SortVizualizer
 
                 for (int i = 0; i + gap < data.Count; i++)
                 {
-                    currentIndex = i;         // Highlight the current bar
-                    comparingIndex = i + gap; // Highlight the compared bar
+                    currentIndex = i; 
+                    comparingIndex = i + gap;
 
                     if (data[i] > data[i + gap])
                     {
-                        // Swap the elements
                         int temp = data[i];
                         data[i] = data[i + gap];
                         data[i + gap] = temp;
                         swapped = true;
                     }
 
-                    // Update visualization
                     panelVisualizer.Invalidate();
                     await Task.Delay(trackBarSpeed.Value * 10);
 
@@ -1015,12 +936,11 @@ namespace SortVizualizer
                         currentIndex = -1;
                         comparingIndex = -1;
                         panelVisualizer.Invalidate();
-                        return; // Stop if canceled
+                        return;
                     }
                 }
             }
 
-            // Reset indices after sorting
             currentIndex = -1;
             comparingIndex = -1;
             panelVisualizer.Invalidate();
@@ -1041,50 +961,43 @@ namespace SortVizualizer
                 int item = data[cycleStart];
                 int pos = cycleStart;
 
-                // Find the position where we put the element
                 for (int i = cycleStart + 1; i < data.Count; i++)
                 {
-                    comparingIndex = i; // Highlight comparison index
+                    comparingIndex = i;
                     if (data[i] < item)
                     {
                         pos++;
                     }
 
-                    // Visualize comparison
                     panelVisualizer.Invalidate();
                     await Task.Delay(trackBarSpeed.Value * 10);
                     if (cancelRequested) return;
                 }
 
-                // Skip duplicate elements
                 if (pos == cycleStart) continue;
 
-                // Put the item to the right position
                 while (item == data[pos]) pos++;
                 int temp = data[pos];
                 data[pos] = item;
                 item = temp;
 
-                // Visualize placement
                 currentIndex = pos;
                 panelVisualizer.Invalidate();
                 await Task.Delay(trackBarSpeed.Value * 10);
                 if (cancelRequested) return;
 
-                // Rotate the rest of the cycle
                 while (pos != cycleStart)
                 {
                     pos = cycleStart;
 
                     for (int i = cycleStart + 1; i < data.Count; i++)
                     {
-                        comparingIndex = i; // Highlight comparison index
+                        comparingIndex = i;
                         if (data[i] < item)
                         {
                             pos++;
                         }
 
-                        // Visualize comparison
                         panelVisualizer.Invalidate();
                         await Task.Delay(trackBarSpeed.Value * 10);
                         if (cancelRequested) return;
@@ -1095,7 +1008,6 @@ namespace SortVizualizer
                     data[pos] = item;
                     item = temp;
 
-                    // Visualize placement
                     currentIndex = pos;
                     panelVisualizer.Invalidate();
                     await Task.Delay(trackBarSpeed.Value * 10);
@@ -1103,7 +1015,6 @@ namespace SortVizualizer
                 }
             }
 
-            // Reset indices
             currentIndex = -1;
             comparingIndex = -1;
             panelVisualizer.Invalidate();
@@ -1117,13 +1028,10 @@ namespace SortVizualizer
 
             int k = count / 2;
 
-            // Sort the first half in ascending order
             await BitonicSort(low, k, true);
 
-            // Sort the second half in descending order
             await BitonicSort(low + k, k, false);
 
-            // Merge the entire sequence
             await BitonicMerge(low, count, ascending);
         }
 
@@ -1134,50 +1042,43 @@ namespace SortVizualizer
             int k = count / 2;
             for (int i = low; i < low + k; i++)
             {
-                comparingIndex = i + k; // Highlight the index being compared
+                comparingIndex = i + k;
                 if ((ascending && data[i] > data[i + k]) || (!ascending && data[i] < data[i + k]))
                 {
-                    // Swap elements
                     int temp = data[i];
                     data[i] = data[i + k];
                     data[i + k] = temp;
                 }
 
-                // Visualize comparison
-                currentIndex = i; // Highlight the current index
+                currentIndex = i;
                 panelVisualizer.Invalidate();
                 await Task.Delay(trackBarSpeed.Value * 10);
                 if (cancelRequested) return;
             }
 
-            // Merge both halves
             await BitonicMerge(low, k, ascending);
             await BitonicMerge(low + k, k, ascending);
         }
 
         private async Task BitonicSortWrapper()
         {
-            cancelRequested = false; // Reset cancellation flag
+            cancelRequested = false;
 
-            // Calculate the next power of 2
             int nextPowerOfTwo = 1;
             while (nextPowerOfTwo < data.Count)
             {
                 nextPowerOfTwo *= 2;
             }
 
-            // Add padding to make the size a power of 2
             while (data.Count < nextPowerOfTwo)
             {
-                data.Add(0); // Add 0 as padding
+                data.Add(0);
             }
 
             await BitonicSort(0, data.Count, true);
 
-            // Remove any padding
             data.RemoveAll(x => x == 0);
 
-            // Reset indices
             currentIndex = -1;
             comparingIndex = -1;
             panelVisualizer.Invalidate();
@@ -1195,54 +1096,48 @@ namespace SortVizualizer
             {
                 sorted = true;
 
-                // Perform odd-indexed passes
                 for (int i = 1; i < data.Count - 1; i += 2)
                 {
-                    currentIndex = i;       // Highlight the current index
-                    comparingIndex = i + 1; // Highlight the next index
+                    currentIndex = i; 
+                    comparingIndex = i + 1;
 
                     if (data[i] > data[i + 1])
                     {
-                        // Swap if out of order
                         int temp = data[i];
                         data[i] = data[i + 1];
                         data[i + 1] = temp;
 
-                        sorted = false; // Mark as not sorted
+                        sorted = false;
                     }
 
-                    // Update visualization
                     panelVisualizer.Invalidate();
                     await Task.Delay(trackBarSpeed.Value * 10);
 
-                    if (cancelRequested) return; // Stop if canceled
+                    if (cancelRequested) return;
                 }
 
-                // Perform even-indexed passes
+
                 for (int i = 0; i < data.Count - 1; i += 2)
                 {
-                    currentIndex = i;       // Highlight the current index
-                    comparingIndex = i + 1; // Highlight the next index
+                    currentIndex = i;
+                    comparingIndex = i + 1; 
 
                     if (data[i] > data[i + 1])
                     {
-                        // Swap if out of order
                         int temp = data[i];
                         data[i] = data[i + 1];
                         data[i + 1] = temp;
 
-                        sorted = false; // Mark as not sorted
+                        sorted = false;
                     }
 
-                    // Update visualization
                     panelVisualizer.Invalidate();
                     await Task.Delay(trackBarSpeed.Value * 10);
 
-                    if (cancelRequested) return; // Stop if canceled
+                    if (cancelRequested) return;
                 }
             }
 
-            // Reset indices after sorting
             currentIndex = -1;
             comparingIndex = -1;
             panelVisualizer.Invalidate();
@@ -1255,43 +1150,38 @@ namespace SortVizualizer
             if (data.Count <= 1) return;
 
             int n = data.Count;
-            int m = Math.Max(1, n / 10); // Number of "buckets"
-            int[] l = new int[m]; // Count array for buckets
+            int m = Math.Max(1, n / 10);
+            int[] l = new int[m];
             int min = data.Min();
             int maxIndex = 0;
 
-            // Find the max value and its index
             for (int i = 1; i < n; i++)
             {
                 if (data[i] > data[maxIndex])
                     maxIndex = i;
 
-                currentIndex = i; // Highlight the current element
+                currentIndex = i;
                 panelVisualizer.Invalidate();
                 await Task.Delay(trackBarSpeed.Value * 5);
 
-                if (cancelRequested) return; // Cancel if requested
+                if (cancelRequested) return;
             }
 
             int max = data[maxIndex];
 
-            // Edge case: all elements are the same
             if (max == min) return;
 
-            // Compute bucket indices
             for (int i = 0; i < n; i++)
             {
                 int bucketIndex = (int)((m - 1) * (double)(data[i] - min) / (max - min));
                 l[bucketIndex]++;
             }
 
-            // Accumulate counts
             for (int i = 1; i < m; i++)
             {
                 l[i] += l[i - 1];
             }
 
-            // Permutation: Place elements into correct buckets
             int move = 0;
             int j = 0;
             int k = m - 1;
@@ -1313,17 +1203,16 @@ namespace SortVizualizer
                     data[pos] = flash;
                     flash = temp;
 
-                    currentIndex = pos; // Highlight the current element
+                    currentIndex = pos;
                     panelVisualizer.Invalidate();
                     await Task.Delay(trackBarSpeed.Value * 5);
 
-                    if (cancelRequested) return; // Cancel if requested
+                    if (cancelRequested) return;
 
                     move++;
                 }
             }
 
-            // Finish with Insertion Sort for small subarrays
             for (int i = 1; i < n; i++)
             {
                 int key = data[i];
@@ -1339,13 +1228,12 @@ namespace SortVizualizer
                     panelVisualizer.Invalidate();
                     await Task.Delay(trackBarSpeed.Value * 5);
 
-                    if (cancelRequested) return; // Cancel if requested
+                    if (cancelRequested) return;
                 }
 
                 data[j2 + 1] = key;
             }
 
-            // Reset indices after sorting
             currentIndex = -1;
             comparingIndex = -1;
             panelVisualizer.Invalidate();
@@ -1365,11 +1253,10 @@ namespace SortVizualizer
             }
         }
 
-
         private void comboAlgorithms_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!isAlgorithmManuallySelected)
-                return; // Ignore event if triggered during initialization
+                return;
 
             string selectedAlgorithm = comboAlgorithms.SelectedItem?.ToString();
 
@@ -1387,6 +1274,6 @@ namespace SortVizualizer
         {
 
         }
-        //fsdf
+   
     }
 }
