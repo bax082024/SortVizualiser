@@ -100,6 +100,9 @@ namespace SortVizualizer
                     case "Gnome Sort":
                         await GnomeSort();
                         break;
+                    case "Comb Sort":
+                        await CombSort();
+                        break;
 
 
                         // Add more cases for other algorithms
