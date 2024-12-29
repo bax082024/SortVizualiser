@@ -1098,6 +1098,73 @@ namespace SortVizualizer
             MessageBox.Show("Cycle Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private async Task BitonicSort(int low, int count, bool ascending)
+        {
+            if (count <= 1) return;
+
+            int k = count / 2;
+
+            // Sort the first half in ascending order
+            await BitonicSort(low, k, true);
+
+            // Sort the second half in descending order
+            await BitonicSort(low + k, k, false);
+
+            // Merge the entire sequence
+            await BitonicMerge(low, count, ascending);
+        }
+
+        private async Task BitonicMerge(int low, int count, bool ascending)
+        {
+            if (count <= 1) return;
+
+            int k = count / 2;
+            for (int i = low; i < low + k; i++)
+            {
+                comparingIndex = i + k; // Highlight the index being compared
+                if ((ascending && data[i] > data[i + k]) || (!ascending && data[i] < data[i + k]))
+                {
+                    // Swap elements
+                    int temp = data[i];
+                    data[i] = data[i + k];
+                    data[i + k] = temp;
+                }
+
+                // Visualize comparison
+                currentIndex = i; // Highlight the current index
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 10);
+                if (cancelRequested) return;
+            }
+
+            // Merge both halves
+            await BitonicMerge(low, k, ascending);
+            await BitonicMerge(low + k, k, ascending);
+        }
+
+        private async Task BitonicSortWrapper()
+        {
+            cancelRequested = false; // Reset cancellation flag
+
+            // Ensure the size of the data is a power of 2 (padding if needed)
+            int size = data.Count;
+            while ((size & (size - 1)) != 0)
+            {
+                data.Add(int.MaxValue); // Add padding to make the size a power of 2
+            }
+
+            await BitonicSort(0, data.Count, true);
+
+            // Remove any padding
+            data.RemoveAll(x => x == int.MaxValue);
+
+            // Reset indices
+            currentIndex = -1;
+            comparingIndex = -1;
+            panelVisualizer.Invalidate();
+
+            MessageBox.Show("Bitonic Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
 
 
 
