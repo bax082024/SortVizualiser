@@ -38,3 +38,14 @@ educational way to visualize sorting algorithms in action.
 
 ---
 
+## How to Use
+
+1. **Select Algorithm**: Choose a sorting algorithm from the dropdown menu.
+2. **Adjust Speed**: Use the slider to control the speed of the sorting visualization.
+3. **Generate Data**: Click the `Reset` button to generate new random data bars.
+4. **Start Sorting**: Click the `Start` button to begin the visualization.
+5. **Cancel Sorting**: Use the `Cancel` button to stop the sorting process at any time.
+6. **Exit**: Click the `Exit` button to close the application.
+
+---
+
