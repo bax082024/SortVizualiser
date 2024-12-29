@@ -109,6 +109,9 @@ namespace SortVizualizer
                     case "Bitonic Sort":
                         await BitonicSortWrapper();
                         break;
+                    case "Odd-Even Sort":
+                        await OddEvenSort();
+                        break;
 
 
                         // Add more cases for other algorithms
