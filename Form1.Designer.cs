@@ -40,6 +40,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
             this.trackSpeed = new System.Windows.Forms.TrackBar();
+            this.label3 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackSpeed)).BeginInit();
@@ -64,6 +65,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.trackSpeed);
             this.panel1.Controls.Add(this.btnExit);
             this.panel1.Controls.Add(this.label2);
@@ -166,12 +168,22 @@
             // 
             // trackSpeed
             // 
-            this.trackSpeed.Location = new System.Drawing.Point(74, 564);
+            this.trackSpeed.Location = new System.Drawing.Point(71, 595);
             this.trackSpeed.Minimum = 1;
             this.trackSpeed.Name = "trackSpeed";
             this.trackSpeed.Size = new System.Drawing.Size(104, 45);
             this.trackSpeed.TabIndex = 8;
             this.trackSpeed.Value = 5;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(74, 576);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(101, 16);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Select Speed";
             // 
             // Form1
             // 
@@ -207,6 +219,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.TrackBar trackSpeed;
+        private System.Windows.Forms.Label label3;
     }
 }
 
