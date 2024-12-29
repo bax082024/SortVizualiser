@@ -13,6 +13,10 @@ namespace SortVizualizer
     public partial class SortVizualiserForm : Form
     {
         private List<int> data = new List<int>();
+        private int currentIndex = -1; // Current comparison index
+        private int comparingIndex = -1; // Second bar being compared
+        private bool cancelRequested = false;
+        private bool isAlgorithmManuallySelected = false;
 
 
         public SortVizualiserForm()
@@ -22,24 +26,23 @@ namespace SortVizualizer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Populate the ComboBox with sorting algorithm options
-            comboAlgorithms.Items.AddRange(new string[]
-            {
-                "Bubble Sort",
-                "Selection Sort",
-                "Insertion Sort",
-                "Merge Sort",
-                "Quick Sort"
-            });
+            
 
-            comboAlgorithms.SelectedIndex = 0; // Set default selection
-            GenerateRandomData(50); // Generate initial data automatically
+             // Set default selection
+            GenerateRandomData(50); // Generate initial data with 50 bars
+
+            isAlgorithmManuallySelected = true;
         }
+
+
+
 
 
 
         private async void btnStart_Click(object sender, EventArgs e)
         {
+            cancelRequested = false;
+
             // Ensure data exists before starting
             if (data == null || data.Count == 0)
             {
@@ -74,11 +77,12 @@ namespace SortVizualizer
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Pause clicked!");
+            cancelRequested = true;
         }
 
         private void btnReset_Click(object sender, EventArgs e)
         {
+            cancelRequested = false;
             GenerateRandomData(50);
         }
 
@@ -116,16 +120,20 @@ namespace SortVizualizer
             if (data.Count == 0) return; // Exit early if no data to visualize
 
             Graphics g = e.Graphics;
-            int barWidth = panelVisualizer.Width / data.Count; // Calculate bar width based on data size
+            int barWidth = panelVisualizer.Width / data.Count;
 
             for (int i = 0; i < data.Count; i++)
             {
+                Brush brush = Brushes.Blue;
+
+                if (i == currentIndex) brush = Brushes.Red; // Highlight the current bar
+                else if (i == comparingIndex) brush = Brushes.Green; // Highlight the comparing bar
+
                 int barHeight = data[i];
                 int x = i * barWidth;
                 int y = panelVisualizer.Height - barHeight;
 
-                // Draw each bar as a rectangle
-                g.FillRectangle(Brushes.Blue, x, y, barWidth - 2, barHeight);
+                g.FillRectangle(brush, x, y, barWidth - 2, barHeight);
             }
         }
 
@@ -135,19 +143,24 @@ namespace SortVizualizer
             {
                 for (int j = 0; j < data.Count - i - 1; j++)
                 {
+                    currentIndex = j; // Update the current index
+                    comparingIndex = j + 1; // Update the comparing index
+
                     if (data[j] > data[j + 1])
                     {
                         // Swap elements
                         int temp = data[j];
                         data[j] = data[j + 1];
                         data[j + 1] = temp;
-
-                        // Redraw the visualization
-                        panelVisualizer.Invalidate();
-
-                        // Delay for visualization based on the speed slider
-                        await Task.Delay(trackBarSpeed.Value * 10);
                     }
+
+                    // Redraw the visualization
+                    panelVisualizer.Invalidate();
+
+                    // Delay for visualization based on the speed slider
+                    await Task.Delay(trackBarSpeed.Value * 10);
+
+                    if (cancelRequested) return; // Stop sorting if canceled
                 }
             }
         }
@@ -157,48 +170,62 @@ namespace SortVizualizer
             for (int i = 0; i < data.Count - 1; i++)
             {
                 int minIndex = i;
+                currentIndex = i; // Update the index for coloring
 
                 for (int j = i + 1; j < data.Count; j++)
                 {
-                    // Highlight the current bars being compared
-                    panelVisualizer.CreateGraphics().FillRectangle(Brushes.Red,
-                        j * (panelVisualizer.Width / data.Count),
-                        panelVisualizer.Height - data[j],
-                        (panelVisualizer.Width / data.Count) - 2,
-                        data[j]);
-
+                    comparingIndex = j; // Update the second index for coloring
                     if (data[j] < data[minIndex])
                     {
                         minIndex = j;
                     }
 
-                    await Task.Delay(trackBarSpeed.Value * 10); // Speed control
-
-                    // Reset the bar color to blue
+                    // Redraw the visualization
                     panelVisualizer.Invalidate();
+
+                    // Delay for visualization based on the speed slider
+                    await Task.Delay(trackBarSpeed.Value * 10);
+
+                    if (cancelRequested) return; // Check if sorting was canceled
                 }
 
-                // Swap and update visualization
+                // Swap the elements
                 if (minIndex != i)
                 {
                     int temp = data[i];
                     data[i] = data[minIndex];
                     data[minIndex] = temp;
-
-                    panelVisualizer.Invalidate();
                 }
+
+                // Redraw the visualization
+                panelVisualizer.Invalidate();
             }
+
+            // Reset indices after sorting
+            currentIndex = -1;
+            comparingIndex = -1;
+
+            MessageBox.Show("Sorting Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
 
 
         private void comboAlgorithms_SelectedIndexChanged(object sender, EventArgs e)
-        {           
-            comboAlgorithms.Items.AddRange(new string[]
+        {
+            if (!isAlgorithmManuallySelected)
+                return; // Ignore event if triggered during initialization
+
+            string selectedAlgorithm = comboAlgorithms.SelectedItem?.ToString();
+
+            if (string.IsNullOrEmpty(selectedAlgorithm))
             {
-                "Bubble Sort",
-                "Selection Sort" // Add Selection Sort
-            });
+                MessageBox.Show("No algorithm selected yet.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                MessageBox.Show($"You selected: {selectedAlgorithm}", "Algorithm Selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
+
     }
 }

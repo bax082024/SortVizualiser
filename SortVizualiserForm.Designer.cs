@@ -167,6 +167,16 @@
             // 
             this.comboAlgorithms.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboAlgorithms.FormattingEnabled = true;
+            this.comboAlgorithms.Items.AddRange(new object[] {
+            "Bubble Sort",
+            "",
+            "Selection Sort",
+            "",
+            "Insertion Sort",
+            "",
+            "Merge Sort",
+            "",
+            "Quick Sort"});
             this.comboAlgorithms.Location = new System.Drawing.Point(71, 537);
             this.comboAlgorithms.Name = "comboAlgorithms";
             this.comboAlgorithms.Size = new System.Drawing.Size(121, 21);
