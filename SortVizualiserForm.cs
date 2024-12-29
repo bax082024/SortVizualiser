@@ -56,8 +56,11 @@ namespace SortVizualizer
 
             if (!string.IsNullOrEmpty(selectedAlgorithm))
             {
+    
+
                 switch (selectedAlgorithm)
                 {
+
                     case "Bubble Sort":
                         await BubbleSort();
                         break;
@@ -94,9 +97,7 @@ namespace SortVizualizer
                     case "Pigeonhole Sort":
                         await PigeonholeSort();
                         break;
-                    case "Cocktail Shaker Sort":
-                        await CocktailShakerSort();
-                        break;
+                    
 
                         // Add more cases for other algorithms
                 }
@@ -900,69 +901,46 @@ namespace SortVizualizer
             MessageBox.Show("Sorting Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private async Task CocktailShakerSort()
+        private async Task GnomeSort()
         {
-            if (data.Count == 0) return;
-
-            bool swapped = true;
-            int start = 0;
-            int end = data.Count - 1;
-
-            while (swapped)
+            if (data == null || data.Count == 0)
             {
-                swapped = false;
+                MessageBox.Show("No data to sort!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-                // Traverse from left to right
-                for (int i = start; i < end; i++)
+            int index = 0;
+
+            while (index < data.Count)
+            {
+                currentIndex = index; // Highlight the current bar
+
+                if (index == 0 || data[index] >= data[index - 1])
                 {
-                    currentIndex = i;
-                    comparingIndex = i + 1;
+                    index++;
+                }
+                else
+                {
+                    // Swap the elements
+                    int temp = data[index];
+                    data[index] = data[index - 1];
+                    data[index - 1] = temp;
+                    index--;
 
-                    if (data[i] > data[i + 1])
-                    {
-                        // Swap elements
-                        int temp = data[i];
-                        data[i] = data[i + 1];
-                        data[i + 1] = temp;
-                        swapped = true;
-                    }
-
-                    // Redraw the visualization
-                    panelVisualizer.Invalidate();
-                    await Task.Delay(trackBarSpeed.Value * 10);
-
-                    if (cancelRequested) return;
+                    comparingIndex = index; // Highlight the compared bar
                 }
 
-                if (!swapped)
-                    break;
+                // Update visualization
+                panelVisualizer.Invalidate();
+                await Task.Delay(trackBarSpeed.Value * 10);
 
-                swapped = false;
-                end--;
-
-                // Traverse from right to left
-                for (int i = end - 1; i >= start; i--)
+                if (cancelRequested)
                 {
-                    currentIndex = i;
-                    comparingIndex = i + 1;
-
-                    if (data[i] > data[i + 1])
-                    {
-                        // Swap elements
-                        int temp = data[i];
-                        data[i] = data[i + 1];
-                        data[i + 1] = temp;
-                        swapped = true;
-                    }
-
-                    // Redraw the visualization
+                    currentIndex = -1;
+                    comparingIndex = -1;
                     panelVisualizer.Invalidate();
-                    await Task.Delay(trackBarSpeed.Value * 10);
-
-                    if (cancelRequested) return;
+                    return; // Stop if canceled
                 }
-
-                start++;
             }
 
             // Reset indices after sorting
@@ -970,8 +948,14 @@ namespace SortVizualizer
             comparingIndex = -1;
             panelVisualizer.Invalidate();
 
-            MessageBox.Show("Sorting Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Gnome Sort Complete!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+
+
+
+
+
 
 
 
