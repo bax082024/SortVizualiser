@@ -38,6 +38,7 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnExit = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -61,6 +62,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnExit);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.btnReset);
             this.panel1.Controls.Add(this.btnCancel);
@@ -76,7 +78,7 @@
             // 
             // panelVisualizer
             // 
-            this.panelVisualizer.BackColor = System.Drawing.Color.LightGray;
+            this.panelVisualizer.BackColor = System.Drawing.Color.LemonChiffon;
             this.panelVisualizer.Location = new System.Drawing.Point(71, 104);
             this.panelVisualizer.Name = "panelVisualizer";
             this.panelVisualizer.Size = new System.Drawing.Size(600, 400);
@@ -147,6 +149,18 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "Sorting Vizualiser";
             // 
+            // btnExit
+            // 
+            this.btnExit.BackColor = System.Drawing.Color.Silver;
+            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExit.Location = new System.Drawing.Point(596, 616);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(75, 24);
+            this.btnExit.TabIndex = 7;
+            this.btnExit.Text = "Exit";
+            this.btnExit.UseVisualStyleBackColor = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -178,6 +192,7 @@
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnExit;
     }
 }
 
