@@ -70,6 +70,9 @@ namespace SortVizualizer
                     case "Merge Sort":
                         await MergeSortWrapper();
                         break;
+                    case "Quick Sort":
+                        await QuickSortWrapper();
+                        break;
 
                         // Add more cases for other algorithms
                 }
